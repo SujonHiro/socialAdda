@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router";
+import { ToastContainer } from "react-toastify";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -22,6 +23,8 @@ function App() {
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+
+      <ToastContainer />
     </div>
   );
 }

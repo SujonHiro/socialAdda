@@ -13,3 +13,21 @@
     @apply w-[4rem] h-[4rem] inline-block relative mt-[-3rem];
   }
 }
+
+@theme {
+  --animate-fade-in-scale: fade-in-scale 0.3s ease-out;
+  @keyframes fade-in-scale {
+    0% {
+      opacity: 0;
+      transform: "translateX(-100%)";
+    }
+    50% {
+      opacity: 1;
+      transform: "translateX(0)";
+    }
+    100% {
+      opacity: 1;
+      transform: "translateX(100%)";
+    }
+  }
+}

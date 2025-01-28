@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router";
 import User from "../../assets/images/avatars/user.jpg";
 import Logo from "../../assets/img/logo.svg";
+import useAuth from "../../hook/useAuth";
 import Logout from "../Logout";
 
 function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { auth } = useAuth();
 
   return (
     <header className="md:container px-4 sticky top-0 z-50 border-b border-[#141519] bg-[#000000] py-4">
@@ -86,7 +88,7 @@ function Header() {
                   <img className="size-8 rounded-full" src={User} alt="" />
                   <div className="flex flex-col text-gray-300">
                     <span className="ml-2 font-bold text-md">
-                      Lori Ferguson
+                      {auth.user.name}
                     </span>
                     <span className="ml-2 text-xs">Web Developer</span>
                   </div>

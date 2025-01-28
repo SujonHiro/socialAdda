@@ -1,9 +1,13 @@
 import axios from "axios";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 import useAuth from "../hook/useAuth";
+import LoadingBar from "./common/LoadingBar";
 
 export default function LoginForm() {
+  const [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
   const { setAuth } = useAuth();
   const {
@@ -13,12 +17,23 @@ export default function LoginForm() {
   } = useForm();
 
   async function submitForm(formData) {
-    const isVerified = localStorage.getItem("isVerified") === "true";
-    if (!isVerified) {
-      console.error("Email is not verified");
+    //const isVerified = localStorage.getItem("isVerified") === "true";
+
+    /* if (!isVerified) {
+      toast.error("User not verified or email mismatch", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
-    }
+    } */
+
     try {
+      setIsLoading(true);
       // Make the API request
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/login`,
@@ -28,18 +43,45 @@ export default function LoginForm() {
       setAuth({ user, token });
 
       if (response.status === 200) {
-        console.log("Login successful");
+        toast.success("Login successful", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         navigate("/");
       } else {
-        console.error("Login failed");
+        toast.error("Login Failed", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      toast.error("Email is not verified", error, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
     <>
+      <LoadingBar isLoading={isLoading} />
       <form className="mt-4" onSubmit={handleSubmit(submitForm)}>
         <div className="mb-3">
           <input

@@ -1,15 +1,23 @@
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 import useAuth from "../hook/useAuth";
-
 function Logout() {
   const navigate = useNavigate();
   const { setAuth } = useAuth();
 
   function handleLogout() {
-    //localStorage.removeItem("user");
     localStorage.removeItem("auth");
     setAuth({});
     navigate("/login");
+    toast.success("Logout Succesfully", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   }
   return (
     <button
