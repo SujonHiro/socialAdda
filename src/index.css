@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply bg-[#191a1f];
+  }
+}
+@layer components {
+  .form-control {
+    @apply block w-full py-[.5rem] px-[1rem] text-sm leading-7 text-gray-200 appearance-none bg-[#191a1f] bg-clip-padding border border-gray-600 rounded-md  transition duration-150 ease-in-out;
+  }
+  .avatar {
+    @apply w-[4rem] h-[4rem] inline-block relative mt-[-3rem];
+  }
+}
