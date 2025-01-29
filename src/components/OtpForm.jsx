@@ -58,7 +58,6 @@ function OtpForm() {
       console.log("API Response:", response.status);
       if (response.status === 200) {
         console.log("OTP Verified Successfully");
-        //localStorage.setItem("isVerified", true);
         localStorage.removeItem("email");
         navigate("/login");
       } else {

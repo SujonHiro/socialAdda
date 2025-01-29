@@ -1,12 +1,8 @@
 import LeftSideComponents from "../components/LeftSideComponents";
 import MiddleSideBar from "../components/MiddleSideBar";
 import OffCanvasProfile from "../components/OffcanvasProfile";
-import useAuth from "../hook/useAuth";
 
 export default function HomePage() {
-  const { auth } = useAuth();
-  console.log(auth);
-
   return (
     <>
       <OffCanvasProfile />

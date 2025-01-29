@@ -10,6 +10,7 @@ function RegistrationForm() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   async function submitRegistraionForm(formData) {
@@ -35,6 +36,7 @@ function RegistrationForm() {
       );
     } finally {
       setIsLoading(false);
+      reset();
     }
 
     /*  navigate("/otp"); */

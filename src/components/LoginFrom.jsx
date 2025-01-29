@@ -14,24 +14,10 @@ export default function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   async function submitForm(formData) {
-    //const isVerified = localStorage.getItem("isVerified") === "true";
-
-    /* if (!isVerified) {
-      toast.error("User not verified or email mismatch", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      return;
-    } */
-
     try {
       setIsLoading(true);
       // Make the API request
@@ -39,10 +25,13 @@ export default function LoginForm() {
         `${import.meta.env.VITE_BASE_URL}/login`,
         formData
       );
-      const { user, token } = response.data;
-      setAuth({ user, token });
 
-      if (response.status === 200) {
+      //console.log("API Response:", response.data.user.is_verified);
+
+      const { user, token } = response.data;
+
+      if (response.status === 200 && response.data.user.is_verified === 1) {
+        setAuth({ user, token });
         toast.success("Login successful", {
           position: "top-right",
           autoClose: 5000,
@@ -54,7 +43,8 @@ export default function LoginForm() {
         });
         navigate("/");
       } else {
-        toast.error("Login Failed", {
+        localStorage.removeItem("email");
+        toast.error("Email is not verified", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -65,7 +55,7 @@ export default function LoginForm() {
         });
       }
     } catch (error) {
-      toast.error("Email is not verified", error, {
+      toast.error("Login Failed", error, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -76,6 +66,7 @@ export default function LoginForm() {
       });
     } finally {
       setIsLoading(false);
+      reset();
     }
   }
 
