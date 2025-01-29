@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router";
+import { toast } from "react-toastify";
 import { formatTime } from "../utils/formatime";
 import LoadingBar from "./common/LoadingBar";
 
@@ -57,11 +58,12 @@ function OtpForm() {
       );
       console.log("API Response:", response.status);
       if (response.status === 200) {
-        console.log("OTP Verified Successfully");
+        toast.success("OTP Verified Successfully");
+
         localStorage.removeItem("email");
         navigate("/login");
       } else {
-        console.error("OTP Verification Failed");
+        toast.error("OTP Verification Failed");
       }
     } catch (error) {
       console.log(

@@ -12,6 +12,11 @@
   .avatar {
     @apply w-[4rem] h-[4rem] inline-block relative mt-[-3rem];
   }
+
+  .Toastify__toast-container {
+    max-width: 320px !important;
+    width: 70% !important;
+  }
 }
 
 @theme {

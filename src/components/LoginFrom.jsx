@@ -32,38 +32,26 @@ export default function LoginForm() {
 
       if (response.status === 200 && response.data.user.is_verified === 1) {
         setAuth({ user, token });
-        toast.success("Login successful", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.success("Login successful");
         navigate("/");
       } else {
-        localStorage.removeItem("email");
-        toast.error("Email is not verified", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        const responseOtp = await axios.post(
+          `${import.meta.env.VITE_BASE_URL}/generate-otp`,
+          {
+            email: formData.email,
+          }
+        );
+
+        console.log("API Response:", responseOtp);
+
+        localStorage.setItem("email", formData.email); // Store email for verification page
+
+        toast.info("Your email is not verified. OTP has been resent.");
+
+        navigate("/otp", { state: { email: formData.email } });
       }
     } catch (error) {
-      toast.error("Login Failed", error, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.error("Please Register first", error);
     } finally {
       setIsLoading(false);
       reset();
