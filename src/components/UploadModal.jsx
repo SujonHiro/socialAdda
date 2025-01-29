@@ -63,25 +63,30 @@ export default function UploadModal({ onClose }) {
           </div>
 
           {/* File Upload */}
-          <div className=" cursor-pointer text-center flex flex-col  relative min-h-auto border-2 border-dashed rounded-lg p-16 mb-4">
+          <div className=" cursor-pointer text-center flex flex-col justify-center items-center  relative min-h-auto border-2 border-dashed rounded-lg p-16 mb-4">
             <input
               type="file"
-              onChange={handleFileChange}
-              className="w-full mb-4"
+              id="file-upload"
+              className="hidden"
+              accept="image/*"
             />
-            <svg
-              stroke="currentColor"
-              fill="currentColor"
-              strokeWidth="0"
-              viewBox="0 0 16 16"
-              height="1em"
-              className="md:text-7xl self-center "
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"></path>
-              <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"></path>
-            </svg>
+
+            <label htmlFor="file-upload" className="cursor-pointer ">
+              <svg
+                stroke="currentColor"
+                fill="currentColor"
+                strokeWidth="0"
+                viewBox="0 0 16 16"
+                height="1em"
+                className="md:text-7xl self-center "
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"></path>
+                <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"></path>
+              </svg>
+            </label>
+
             <p>Drag here or click to upload photo.</p>
           </div>
 
@@ -89,13 +94,13 @@ export default function UploadModal({ onClose }) {
           <div className="flex gap-4 justify-end">
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-gray-300 rounded-md"
+              className=" cursor-pointer flex justify-center my-2  px-5 rounded-sm py-2 bg-[#0f6fec1a] text-blue-600 text-sm hover:bg-blue-600 hover:text-white transition-all duration-300"
             >
               Cancel
             </button>
             <button
               onClick={handlePost}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md"
+              className="cursor-pointer flex justify-center my-2  px-5 rounded-sm py-2  bg-blue-600 text-white text-sm hover:bg-[#0f6fec1a] hover:text-white transition-all duration-300"
             >
               Post
             </button>
