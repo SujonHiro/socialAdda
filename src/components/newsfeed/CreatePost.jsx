@@ -1,5 +1,5 @@
-import Photo from "../../assets/icons/photo.svg";
 import User from "../../assets/images/avatars/user.jpg";
+import PostWithFile from "./PostWithFile";
 function CreatePost() {
   return (
     <>
@@ -8,7 +8,7 @@ function CreatePost() {
           <div className="relative inline-block shrink-0">
             <img src={User} alt="" className="size-8 rounded-full" />
           </div>
-          <form action="" className="w-full">
+          <form className="w-full">
             <textarea
               className="form-control focus:outline-none border-0"
               placeholder="Share your thoughts..."
@@ -17,19 +17,7 @@ function CreatePost() {
         </div>
         <ul className="flex justify-between items-center mt-2">
           <li>
-            <a
-              href="/"
-              className="flex gap-2 items-center my-2 bg-[#202227] px-3 py-2 rounded-md"
-            >
-              <img
-                src={Photo}
-                width="15"
-                height="15"
-                alt=""
-                className="self-center"
-              />
-              <span className="text-sm hover:text-blue-600">Photo</span>
-            </a>
+            <PostWithFile />
           </li>
 
           <li>

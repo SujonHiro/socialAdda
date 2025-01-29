@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { sendOtp } from "../utils/apiService";
 import { formatTime } from "../utils/formatime";
 import LoadingBar from "./common/LoadingBar";
 
@@ -34,16 +35,11 @@ function OtpForm() {
     return <Navigate to="/" replace />;
   }
 
-  function onResendOtp() {
+  async function onResendOtp() {
     setIsLoading(true);
     setIsResendEnabled(false);
     setTimer(120);
-    axios
-      .post(`${import.meta.env.VITE_BASE_URL}/generate-otp`, { email })
-      .then(() => {
-        setIsResendEnabled(true);
-        setIsLoading(false);
-      });
+    await sendOtp(email, "OTP has been resent successfully");
   }
 
   async function onSubmitOtp(formData) {

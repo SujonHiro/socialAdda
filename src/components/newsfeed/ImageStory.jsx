@@ -1,11 +1,22 @@
+import { useState } from "react";
+import { Link } from "react-router";
 import sotry1 from "../../assets/images/stories/1.jpg";
 import sotry2 from "../../assets/images/stories/2.jpg";
 import sotry3 from "../../assets/images/stories/3.jpg";
 import sotry4 from "../../assets/images/stories/4.jpg";
 import sotry5 from "../../assets/images/stories/5.jpg";
+import ImageModal from "../ImageModal";
+
+const images = [sotry1, sotry2, sotry3, sotry4, sotry5];
 function ImageStory() {
+  const [selectedImage, setSelectedImage] = useState(null);
   return (
     <>
+      <ImageModal
+        isOpen={!!selectedImage}
+        onClose={() => setSelectedImage(null)}
+        image={selectedImage}
+      />
       <div className="flex gap-2 justify-between mb-[-1rem]">
         <div className="relative flex shadow-none">
           <div className="border-2 border-dashed bg-[#202227] h-[150px] w-[120px] md:w-[140px] text-center border-gray-700 px-4 flex items-center justify-center shadow-none rounded-md">
@@ -36,6 +47,7 @@ function ImageStory() {
                 </label>
                 <span id="file-name" className="text-gray-600"></span>
               </div>
+
               {/* <button className="h-[2.5rem] w-[2.5rem] rounded-full inline-flex items-center justify-center bg-[#16171b] hover:bg-[#2d2f36]">
                 <svg
                   stroke="currentColor"
@@ -53,97 +65,28 @@ function ImageStory() {
             </div>
           </div>
         </div>
-        <div className="flex overflow-x-auto whitespace-nowrap gap-4 scroll-smooth custom-scrollbar">
-          <div
-            className="w-[120px] h-[150px] rounded-lg flex-shrink-0"
-            data-photo={sotry1}
-          >
-            <a href="">
-              <span className="relative">
-                <img
-                  src={sotry1}
-                  className="w-[120px] h-[150px] rounded-lg"
-                  alt=""
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent h-1/3 opacity-90"></div>
-                <span className="absolute bottom-2 left-4 text-sm text-white">
-                  Lori Ferguson
+        <div className="flex overflow-x-auto whitespace-nowrap gap-4 scroll-smooth hide-scrollbar rounded-lg">
+          {images.map((image, index) => (
+            <button
+              key={index}
+              className="w-[120px] h-[150px] rounded-lg flex-shrink-0 cursor pointer"
+              onClick={() => setSelectedImage(image)}
+            >
+              <Link to="#">
+                <span className="relative mx-auto flex flex-col items-center">
+                  <img
+                    src={image}
+                    className="w-[120px] h-[150px] rounded-lg"
+                    alt={`Story ${index + 1}`}
+                  />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent h-1/3 "></div>
+                  <span className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-sm text-white">
+                    Lori Ferguson
+                  </span>
                 </span>
-              </span>
-            </a>
-          </div>
-          <div
-            className="w-[120px] h-[150px] rounded-lg flex-shrink-0"
-            data-photo={sotry2}
-          >
-            <a href="">
-              <span className="relative">
-                <img
-                  src={sotry2}
-                  className="w-[120px] h-[150px] rounded-lg"
-                  alt=""
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent h-1/3 opacity-90"></div>
-                <span className="absolute bottom-2 left-4 text-sm text-white">
-                  Billy Vasquez
-                </span>
-              </span>
-            </a>
-          </div>
-          <div
-            className="w-[120px] h-[150px] rounded-lg flex-shrink-0"
-            data-photo={sotry3}
-          >
-            <a href="">
-              <span className="relative">
-                <img
-                  src={sotry3}
-                  className="w-[120px] h-[150px] rounded-lg"
-                  alt=""
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent h-1/3 opacity-90"></div>
-                <span className="absolute bottom-2 left-4 text-sm text-white">
-                  Amanda Reed
-                </span>
-              </span>
-            </a>
-          </div>
-          <div
-            className="w-[120px] h-[150px] rounded-lg flex-shrink-0"
-            data-photo={sotry4}
-          >
-            <a href="">
-              <span className="relative">
-                <img
-                  src={sotry4}
-                  className="w-[120px] h-[150px] rounded-lg"
-                  alt=""
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent h-1/3 opacity-90"></div>
-                <span className="absolute bottom-2 left-4 text-sm text-white">
-                  Lori Stevens
-                </span>
-              </span>
-            </a>
-          </div>
-          <div
-            className="w-[120px] h-[150px] rounded-lg flex-shrink-0"
-            data-photo={sotry5}
-          >
-            <a href="">
-              <span className="relative">
-                <img
-                  src={sotry5}
-                  className="w-[120px] h-[150px] rounded-lg"
-                  alt=""
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent h-1/3 opacity-90"></div>
-                <span className="absolute bottom-2 left-4 text-sm text-white">
-                  Joan Wallace
-                </span>
-              </span>
-            </a>
-          </div>
+              </Link>
+            </button>
+          ))}
         </div>
       </div>
     </>

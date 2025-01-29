@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
+import { sendOtp } from "../utils/apiService";
 import LoadingBar from "./common/LoadingBar";
 function RegistrationForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +17,7 @@ function RegistrationForm() {
 
   async function submitRegistraionForm(formData) {
     if (formData.password !== formData.password_confirmation) {
-      console.error("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
@@ -23,10 +25,10 @@ function RegistrationForm() {
       setIsLoading(true);
       await axios.post(`${import.meta.env.VITE_BASE_URL}/register`, formData);
 
-      await axios.post(`${import.meta.env.VITE_BASE_URL}/generate-otp`, {
-        email: formData.email,
-      });
+      sendOtp(formData.email);
       localStorage.setItem("email", formData.email);
+
+      //toast.info("OTP has been sent to your email");
 
       navigate("/otp", { state: { email: formData.email } });
     } catch (error) {

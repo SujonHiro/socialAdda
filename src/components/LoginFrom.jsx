@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import useAuth from "../hook/useAuth";
+import { sendOtp } from "../utils/apiService";
 import LoadingBar from "./common/LoadingBar";
 
 export default function LoginForm() {
@@ -35,23 +36,20 @@ export default function LoginForm() {
         toast.success("Login successful");
         navigate("/");
       } else {
-        const responseOtp = await axios.post(
-          `${import.meta.env.VITE_BASE_URL}/generate-otp`,
-          {
-            email: formData.email,
-          }
+        await sendOtp(
+          formData.email,
+          "Your email is not verified. OTP has been resent."
         );
 
-        console.log("API Response:", responseOtp);
-
         localStorage.setItem("email", formData.email); // Store email for verification page
-
-        toast.info("Your email is not verified. OTP has been resent.");
 
         navigate("/otp", { state: { email: formData.email } });
       }
     } catch (error) {
-      toast.error("Please Register first", error);
+      toast.error(
+        "No account found with this email. Please sign up first.",
+        error
+      );
     } finally {
       setIsLoading(false);
       reset();
