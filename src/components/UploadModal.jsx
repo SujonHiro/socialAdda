@@ -69,6 +69,7 @@ export default function UploadModal({ onClose }) {
               id="file-upload"
               className="hidden"
               accept="image/*"
+              onChange={(e) => handleFileChange(e)}
             />
 
             <label htmlFor="file-upload" className="cursor-pointer ">
