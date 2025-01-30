@@ -1,6 +1,6 @@
 import LeftSideComponents from "../components/LeftSideComponents";
 import MiddleSideBar from "../components/MiddleSideBar";
-import OffCanvasProfile from "../components/OffcanvasProfile";
+import OffCanvasProfile from "../components/OffCanvasProfile";
 
 export default function HomePage() {
   return (
