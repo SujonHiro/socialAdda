@@ -2,9 +2,7 @@ import { useState } from "react";
 import LeftSideComponents from "./LeftSideComponents";
 export default function OffCanvasProfile() {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleOffcanvas = () => setIsOpen(!isOpen);
-
   return (
     <>
       {/* Button to Open Offcanvas */}
