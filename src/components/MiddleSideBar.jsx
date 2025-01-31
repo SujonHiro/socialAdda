@@ -1,6 +1,6 @@
-import CreatePost from "./newsfeed/CreatePost";
 import ImageStory from "./newsfeed/ImageStory";
-import Post from "./newsfeed/Post";
+import CreatePost from "./newsfeed/post/CreatePost";
+import Post from "./newsfeed/post/Post";
 
 function MiddleSideBar() {
   return (

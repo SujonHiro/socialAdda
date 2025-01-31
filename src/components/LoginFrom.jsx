@@ -1,9 +1,9 @@
-import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import useAuth from "../hook/useAuth";
+import useAxios from "../hook/useAxios";
 import { sendOtp } from "../utils/apiService";
 import LoadingBar from "./common/LoadingBar";
 
@@ -22,17 +22,18 @@ export default function LoginForm() {
     try {
       setIsLoading(true);
       // Make the API request
-      const response = await axios.post(
+      const response = await useAxios.post(
         `${import.meta.env.VITE_BASE_URL}/login`,
         formData
       );
 
-      //console.log("API Response:", response.data.user.is_verified);
+      console.log("API Response:", response);
 
-      const { user, token } = response.data;
+      const { user } = response.data;
 
       if (response.status === 200 && response.data.user.is_verified === 1) {
-        setAuth({ user, token });
+        setAuth({ user });
+
         toast.success("Login successful");
         navigate("/");
       } else {
@@ -41,7 +42,7 @@ export default function LoginForm() {
           "Your email is not verified. OTP has been resent."
         );
 
-        localStorage.setItem("email", formData.email); // Store email for verification page
+        localStorage.setItem("email", formData.email);
 
         navigate("/otp", { state: { email: formData.email } });
       }

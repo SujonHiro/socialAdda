@@ -1,19 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AuthContext } from "../context";
 
 function AuthProvider({ children }) {
-  const [auth, setAuth] = useState(() => {
+  const [auth, setAuth] = useState({});
+
+  console.log(auth.token);
+
+  /* () => {
     const token = localStorage.getItem("authToken");
     return token ? { token } : {};
-  });
+  } */
 
-  useEffect(() => {
+  /*  useEffect(() => {
     if (auth.token) {
       localStorage.setItem("authToken", auth.token);
     } else {
       localStorage.removeItem("authToken");
     }
-  }, [auth.token]);
+  }, [auth.token]); */
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>

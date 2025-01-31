@@ -8,7 +8,7 @@ function PrivateRoutes() {
     <>
       {
         // Private routes go here
-        auth.token ? (
+        auth.user ? (
           <>
             <Header />
             <div className="px-4 md:container">

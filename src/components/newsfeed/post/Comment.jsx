@@ -1,4 +1,4 @@
-import User from "../../assets/images/avatars/user.jpg";
+import User from "../../../assets/images/avatars/user.jpg";
 
 function Comment() {
   return (

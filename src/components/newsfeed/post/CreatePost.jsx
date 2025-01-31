@@ -1,5 +1,5 @@
-import User from "../../assets/images/avatars/user.jpg";
-import PostWithFile from "./PostWithFile";
+import User from "../../../assets/images/avatars/user.jpg";
+import PostWithFile from "../PostWithFile";
 function CreatePost() {
   return (
     <>
