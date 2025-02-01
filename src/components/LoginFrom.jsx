@@ -29,10 +29,10 @@ export default function LoginForm() {
 
       console.log("API Response:", response);
 
-      const { user } = response.data;
+      const { user, token } = response.data;
 
       if (response.status === 200 && response.data.user.is_verified === 1) {
-        setAuth({ user });
+        setAuth({ user, token });
 
         toast.success("Login successful");
         navigate("/");

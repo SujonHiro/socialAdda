@@ -1,16 +1,20 @@
-import User from "../../../assets/images/avatars/user.jpg";
-function Author() {
+import { Link } from "react-router";
+function Author({ post }) {
   return (
     <div className="flex items-center gap-2 mb-3 p-4">
-      <a
-        href="#"
+      <Link
+        to="#"
         className="text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
       >
-        <img src={User} className="rounded-full size-10" alt="postImage" />
-      </a>
+        <img
+          src={post.user.profile_picture}
+          className="rounded-full size-10"
+          alt="postImage"
+        />
+      </Link>
       <div>
         <a href="#" className="text-sm">
-          Sam Lanson
+          {post.user.name}
         </a>
         <p className="text-xs">4 Days ago</p>
       </div>
