@@ -5,16 +5,17 @@ function PostBody({ content, poster, postType }) {
     <div className="px-4">
       <p className="mb-3">{content}</p>
       {postType === "video" ? (
-        <div className="flex justify-center items-center h-screen bg-gray-900">
-          <ReactPlayer
-            url={poster}
-            controls
-            playing // Auto-play enabled
-            loop // Video will loop continuously
-            muted // Mutes the video to avoid autoplay restrictions
-            width="640px"
-            height="360px"
-          />
+        <div className="w-full flex justify-center">
+          <div className="relative w-full md:w-[720px] lg:w-[900px] rounded-b-md">
+            <ReactPlayer
+              url={poster}
+              width="100%"
+              height="100%"
+              controls
+              playing
+              className="rounded-lg shadow-lg"
+            />
+          </div>
         </div>
       ) : (
         <img src={poster} className="rounded-md" alt="title" />
