@@ -5,9 +5,8 @@ import Comment from "./Comment";
 import CreateComment from "./CreateComment";
 import PostAction from "./PostAction";
 import PostBody from "./PostBody";
-export default function PostCard({ post }) {
-  console.log(post.content);
 
+export default function PostCard({ post }) {
   return (
     <>
       <div className="mb-3 bg-[#141519] rounded-md">
@@ -17,7 +16,11 @@ export default function PostCard({ post }) {
         </div>
 
         <div className="w-full">
-          <PostBody poster={post.content_url} content={post.content} />
+          <PostBody
+            poster={post.content_url}
+            postType={post.content_type}
+            content={post.content}
+          />
 
           <div className="my-3">
             <div className="border border-gray-800"></div>
