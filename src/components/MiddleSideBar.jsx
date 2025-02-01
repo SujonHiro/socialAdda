@@ -1,13 +1,13 @@
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 import { actions } from "../action";
 import useAxios from "../hook/useAxios";
-import { initialState, postReducer } from "../reducer/postReducer";
+import usePost from "../hook/usePost";
 import ImageStory from "./newsfeed/ImageStory";
 import CreatePost from "./newsfeed/post/CreatePost";
 import PostList from "./newsfeed/post/PostList";
 
 function MiddleSideBar() {
-  const [state, dispatch] = useReducer(postReducer, initialState);
+  const { state, dispatch } = usePost();
 
   useEffect(() => {
     dispatch({ type: actions.post.DATA_FETCHING });
@@ -27,11 +27,13 @@ function MiddleSideBar() {
         }
       } catch (error) {
         console.error(error);
+        dispatch({ type: actions.post.DATA_FETCH_ERROR });
       }
     };
     fetchPost();
 
     //console.log(state);
+    // eslint-disable-next-line
   }, []);
 
   //console.log(state?.posts);
