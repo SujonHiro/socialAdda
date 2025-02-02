@@ -3,10 +3,9 @@ import ReactPlayer from "react-player";
 function PostBody({ content, poster, postType }) {
   return (
     <div className="px-4">
-      <p className="mb-3">{content}</p>
+      <p className="mb-3" dangerouslySetInnerHTML={{ __html: content }} />
       {postType === "video" && (
         <>
-          <p className="mb-3">{content}</p>
           <div className="w-full flex justify-center">
             <div className="relative w-full md:w-[720px] lg:w-[900px] rounded-b-md">
               <ReactPlayer
@@ -22,7 +21,6 @@ function PostBody({ content, poster, postType }) {
       )}
       {postType === "image" && (
         <>
-          <p className="mb-3">{content}</p>
           <img src={poster} className="rounded-md" alt="title" />
         </>
       )}

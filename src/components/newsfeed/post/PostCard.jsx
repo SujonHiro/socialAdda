@@ -8,7 +8,7 @@ import PostAction from "./PostAction";
 import PostBody from "./PostBody";
 
 export default function PostCard({ post }) {
-  console.log("postcard", post.user.email);
+  //console.log("postcard", post.user.email);
   //console.log(post.user.name);
 
   return (
@@ -21,7 +21,7 @@ export default function PostCard({ post }) {
               className="text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
             >
               <img
-                src={post.user.profile_picture}
+                src={post.user.profile_picture_url}
                 className="rounded-full size-10"
                 alt="postImage"
               />
