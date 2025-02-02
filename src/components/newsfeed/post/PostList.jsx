@@ -1,20 +1,18 @@
 import PostCard from "./PostCard";
 
 export default function PostList({ posts }) {
-  // Check if posts is an array and if it has elements
-  /* if (!Array.isArray(posts)) {
-    return <div>No posts available</div>;
-  } */
-
-  //console.log("post.data", posts.data);
+  //console.log(posts[0].id);
+  //<PostCard key={index} post={post} />
+  console.log(posts);
 
   return (
     <>
-      {posts.data ? (
-        posts.data.map((post) => <PostCard key={post.id} post={post} />)
+      {posts.length > 0 ? (
+        posts.map((post) => <PostCard key={post.id} post={post} />)
       ) : (
-        <div>No posts available</div>
+        <p>No Data available</p>
       )}
+      {/* <h1>Hello</h1> */}
     </>
   );
 }

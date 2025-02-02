@@ -1,10 +1,46 @@
+import { useEffect } from "react";
+import { actions } from "../action";
+import LoadingBar from "../components/common/LoadingBar";
 import LeftSideComponents from "../components/LeftSideComponents";
-import MiddleSideBar from "../components/MiddleSideBar";
+import ImageStory from "../components/newsfeed/ImageStory";
+import CreatePost from "../components/newsfeed/post/CreatePost";
+import PostList from "../components/newsfeed/post/PostList";
 import OffCanvasProfile from "../components/OffCanvasProfile";
+import useAxios from "../hook/useAxios";
+import usePost from "../hook/usePost";
 
 export default function HomePage() {
+  const { state, dispatch } = usePost();
+
+  useEffect(() => {
+    dispatch({ type: actions.post.DATA_FETCHING });
+    const fetchPost = async () => {
+      try {
+        const response = await useAxios.get(`/posts`);
+        //console.log("response.data.data", response.data.data);
+
+        if (response.status === 200) {
+          dispatch({
+            type: actions.post.DATA_FETCHED,
+            data: response.data.data,
+          });
+
+          //console.log(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+        dispatch({ type: actions.post.DATA_FETCH_ERROR });
+      }
+    };
+    fetchPost();
+  }, []);
+
+  //console.log(state?.posts);
+  state.error && <p>Something wrong</p>;
+
   return (
     <>
+      {state.loading && <LoadingBar />}
       <OffCanvasProfile />
 
       <div className="md:w-1/4 bg-[#141519] hidden md:block rounded-md">
@@ -12,7 +48,19 @@ export default function HomePage() {
       </div>
 
       <div className="md:w-2/4 w-full">
-        <MiddleSideBar />
+        <div className="flex flex-1 flex-col gap-4 self-stretch">
+          <ImageStory />
+          <CreatePost />
+        </div>
+        {/* {postData.length > 0 ? (
+          postData.map((post) => <div key={post.id}>{post.content}</div>)
+        ) : (
+          <p>Empty</p>
+        )} */}
+
+        <div>
+          <PostList posts={state.posts} />{" "}
+        </div>
       </div>
       <div className="md:w-1/4 bg-[#141519] rounded-md md:my-0 mt-4">
         <div className="px-[1.25rem] py-[1.25rem]">

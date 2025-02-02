@@ -1,18 +1,38 @@
 import { Link } from "react-router";
 import User from "../../../assets/images/avatars/user.jpg";
+import { formatTime } from "../../../utils/formatTime";
 import ActionDataCount from "./ActionDataCount";
-import Author from "./Author";
 import Comment from "./Comment";
 import CreateComment from "./CreateComment";
 import PostAction from "./PostAction";
 import PostBody from "./PostBody";
 
 export default function PostCard({ post }) {
+  console.log("postcard", post.user.email);
+  //console.log(post.user.name);
+
   return (
     <>
       <div className="mb-3 bg-[#141519] rounded-md">
         <div className="flex justify-between items-center">
-          <Author post={post} />
+          <div className="flex items-center gap-2 mb-3 p-4">
+            <Link
+              to="#"
+              className="text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+            >
+              <img
+                src={post.user.profile_picture}
+                className="rounded-full size-10"
+                alt="postImage"
+              />
+            </Link>
+            <div>
+              <Link to="#" className="text-sm">
+                {post.user.name}
+              </Link>
+              <p className="text-xs">{formatTime(post.created_at)}</p>
+            </div>
+          </div>
           <PostAction />
         </div>
 

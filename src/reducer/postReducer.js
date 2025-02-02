@@ -4,6 +4,9 @@ const initialState = {
   loading: false,
   error: null,
 };
+
+//console.log("posts", initialState.posts);
+
 const postReducer = (state, action) => {
   switch (action.type) {
     case actions.post.DATA_FETCHING: {
@@ -13,6 +16,7 @@ const postReducer = (state, action) => {
       };
     }
     case actions.post.DATA_FETCHED: {
+      //console.log("DATA_FETCHED", action.data);
       return {
         ...state,
         posts: action.data,
@@ -20,10 +24,12 @@ const postReducer = (state, action) => {
       };
     }
     case actions.post.DATA_CREATED: {
+      //console.log("DATA_CREATED", state.posts);
+
       return {
         ...state,
-        posts: [...state.posts, action.data],
         loading: false,
+        posts: [action.data, ...state.posts],
       };
     }
 

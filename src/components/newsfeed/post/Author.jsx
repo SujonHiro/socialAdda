@@ -1,21 +1,19 @@
 import { Link } from "react-router";
 function Author({ post }) {
+  //console.log(post.user.name);
+
   return (
     <div className="flex items-center gap-2 mb-3 p-4">
       <Link
         to="#"
         className="text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
       >
-        <img
-          src={post.user.profile_picture}
-          className="rounded-full size-10"
-          alt="postImage"
-        />
+        <img src="#" className="rounded-full size-10" alt="postImage" />
       </Link>
       <div>
-        <a href="#" className="text-sm">
+        <Link to="#" className="text-sm">
           {post.user.name}
-        </a>
+        </Link>
         <p className="text-xs">4 Days ago</p>
       </div>
     </div>
