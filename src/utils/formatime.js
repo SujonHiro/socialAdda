@@ -1,4 +1,10 @@
-function formatTime(date) {
+export const formatTime = (time) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60;
+  return `${minutes}m ${seconds}s`;
+};
+
+function formatDate(date) {
   const now = new Date();
   const givenDate = new Date(date);
   const diff = now - givenDate;
@@ -37,4 +43,4 @@ function formatTime(date) {
   }
 }
 
-export { formatTime };
+export { formatDate };

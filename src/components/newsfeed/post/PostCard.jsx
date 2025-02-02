@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import User from "../../../assets/images/avatars/user.jpg";
-import { formatTime } from "../../../utils/formatTime";
+import { formatDate } from "../../../utils/formatime";
 import ActionDataCount from "./ActionDataCount";
 import Comment from "./Comment";
 import CreateComment from "./CreateComment";
@@ -30,7 +30,7 @@ export default function PostCard({ post }) {
               <Link to="#" className="text-sm">
                 {post.user.name}
               </Link>
-              <p className="text-xs">{formatTime(post.created_at)}</p>
+              <p className="text-xs">{formatDate(post.created_at)}</p>
             </div>
           </div>
           <PostAction />
