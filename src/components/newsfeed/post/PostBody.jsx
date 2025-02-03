@@ -21,7 +21,7 @@ function PostBody({ content, poster, postType }) {
       )}
       {postType === "image" && (
         <>
-          <img src={poster} className="rounded-md" alt="title" />
+          <img src={poster} className="rounded-md" alt="poster" />
         </>
       )}
     </div>
