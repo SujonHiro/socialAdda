@@ -1,6 +1,5 @@
 import { useState } from "react";
-import UploadVideoModal from "../../uploadVideoModal";
-
+import UploadVideoModal from "../../UploadVideoModal";
 function PostWithVideo() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
