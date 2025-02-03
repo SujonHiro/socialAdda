@@ -4,10 +4,8 @@ import UploadModal from "../UploadModal";
 export default function PostWithFile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Toggle modal visibility
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
-    console.log("clicked");
   };
   return (
     <>

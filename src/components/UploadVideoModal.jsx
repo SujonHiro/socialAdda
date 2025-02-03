@@ -1,12 +1,13 @@
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import ReactPlayer from "react-player";
 import { toast } from "react-toastify";
 import { actions } from "../action";
 import User from "../assets/images/avatars/user.jpg";
 import useAxios from "../hook/useAxios";
 import usePost from "../hook/usePost";
-export default function UploadModal({ onClose }) {
-  const [selectedImage, setSelectedImage] = useState(null);
+export default function UploadVideoModal({ onClose }) {
+  const [selectedVideo, setSelectedVideo] = useState(null);
   const { dispatch } = usePost();
   const { register, handleSubmit, reset } = useForm();
   const fileUploadRef = useRef();
@@ -20,7 +21,7 @@ export default function UploadModal({ onClose }) {
     //console.log(file);
 
     if (file) {
-      setSelectedImage(URL.createObjectURL(file));
+      setSelectedVideo(URL.createObjectURL(file));
     }
   };
 
@@ -28,19 +29,19 @@ export default function UploadModal({ onClose }) {
     const file = fileUploadRef.current.files[0];
 
     if (!file) {
-      toast.error("Please select an image.");
+      toast.error("Please select a video.");
       return;
     }
 
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please upload a valid image file.");
+    if (!file.type.startsWith("video/")) {
+      toast.error("Please upload a valid video file.");
       return;
     }
 
     const formData = new FormData();
     formData.append("content_file", file);
     formData.append("content", data.content);
-    formData.append("content_type", "image");
+    formData.append("content_type", "video");
 
     // Step 1: Show loading state
     dispatch({ type: actions.post.DATA_FETCHING });
@@ -55,19 +56,17 @@ export default function UploadModal({ onClose }) {
         dispatch({ type: actions.post.DATA_CREATED, data: response.data.data });
 
         // Step 4: Show success toast after upload
-        toast.success("Image uploaded successfully!");
+        toast.success("Video uploaded successfully!");
 
-        setSelectedImage(null);
+        // Step 5: Reset state after upload
+        setSelectedVideo(null);
         reset();
       } else {
         dispatch({ type: actions.post.DATA_FETCH_ERROR });
-
         toast.error("Upload failed, please try again.");
       }
     } catch (error) {
       console.error(error);
-      dispatch({ type: actions.post.DATA_FETCH_ERROR });
-      //console.log(state.response.data.errors);
       toast.error("An error occurred while uploading.");
     }
   };
@@ -123,37 +122,43 @@ export default function UploadModal({ onClose }) {
               onClick={handleImageUpload}
               className={`w-full cursor-pointer text-center flex flex-col justify-center items-center 
                 relative min-h-auto border-2 border-dashed rounded-lg 
-                ${selectedImage ? "p-2" : "p-16 mb-4"}`}
+                ${selectedVideo ? "p-2" : "p-16 mb-4"}`}
             >
               <label htmlFor="file-upload" className="cursor-pointer ">
-                {selectedImage ? (
-                  <img
-                    src={selectedImage}
-                    alt="Selected"
-                    className="w-full max-h-64 object-cover rounded-lg"
-                  />
+                {selectedVideo ? (
+                  <div className="w-full max-h-64 overflow-hidden rounded-lg">
+                    <ReactPlayer
+                      url={selectedVideo}
+                      controls
+                      width="100%"
+                      height="auto"
+                      className="rounded-lg"
+                    />
+                  </div>
                 ) : (
                   <svg
                     stroke="currentColor"
                     fill="currentColor"
                     strokeWidth="0"
                     viewBox="0 0 16 16"
+                    className="display-3"
                     height="1em"
-                    className="md:text-7xl self-center "
                     width="1em"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"></path>
-                    <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"></path>
+                    <path d="M6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0M1 3a2 2 0 1 0 4 0 2 2 0 0 0-4 0"></path>
+                    <path d="M9 6h.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 7.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 16H2a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm6 8.73V7.27l-3.5 1.555v4.35zM1 8v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1"></path>
+                    <path d="M9 6a3 3 0 1 0 0-6 3 3 0 0 0 0 6M7 3a2 2 0 1 1 4 0 2 2 0 0 1-4 0"></path>
                   </svg>
                 )}
               </label>
-              {!selectedImage && <p>Just click to upload photo.</p>}
+
+              {!selectedVideo && <p>Just click to upload photo.</p>}
             </button>
             <input
               type="file"
               id="fileUpload"
-              accept="image/*"
+              accept="video/*"
               onChange={updatePost}
               ref={fileUploadRef}
               hidden

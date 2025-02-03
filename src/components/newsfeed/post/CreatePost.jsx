@@ -18,23 +18,25 @@ function CreatePost() {
             </div>
             <div className="w-full ">
               <textarea
-                className="form-control focus:outline-none border-0"
+                className="form-control focus:outline-none border-0 caret-transparent"
                 placeholder="Share your thoughts..."
                 onClick={() => setPostEntry(true)}
               ></textarea>
             </div>
           </div>
         )}
-        <ul className="flex justify-between items-center mt-2 p-0">
-          <div className="flex items-center gap-2">
-            <li>
-              <PostWithFile />
-            </li>
-            <li>
-              <PostWithVideo />
-            </li>
-          </div>
-        </ul>
+        {postEntry ? null : (
+          <ul className="flex justify-between items-center mt-2 p-0">
+            <div className="flex items-center gap-2">
+              <li>
+                <PostWithFile />
+              </li>
+              <li>
+                <PostWithVideo />
+              </li>
+            </div>
+          </ul>
+        )}
       </div>
     </>
   );
