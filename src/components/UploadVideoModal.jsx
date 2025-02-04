@@ -26,10 +26,18 @@ export default function UploadVideoModal({ onClose }) {
 
   const handlePost = async (data) => {
     const file = fileUploadRef.current.files[0];
-    console.log(file);
 
     if (!file) {
       toast.error("Please select a video.");
+      return;
+    }
+    if (file.type !== "video/mp4") {
+      toast.error("Please upload a mp4 video Only.");
+      return;
+    }
+    const maxSize = 20 * 1024 * 1024;
+    if (file.size > maxSize) {
+      toast.error("File size exceeds the 20MB limit. Your file is 20MB");
       return;
     }
 
