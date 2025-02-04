@@ -35,6 +35,7 @@ function ContentPost({ onCreate }) {
   function handleClose() {
     onCreate();
   }
+
   state.loading && <LoadingBar />;
   state.error && <p>error occured</p>;
 
@@ -58,6 +59,7 @@ function ContentPost({ onCreate }) {
                 <span className="text-red-500">{errors.content.message}</span>
               )}
             </div>
+
             <button
               type="submit"
               className="cursor-pointer me-3 my-2 mx-auto px-5 rounded-sm py-2 bg-[#0f6fec1a] text-blue-600 text-sm hover:bg-blue-600 hover:text-white transition-all duration-200"

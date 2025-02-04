@@ -1,15 +1,10 @@
-import { useState } from "react";
 import UploadVideoModal from "../../UploadVideoModal";
-function PostWithVideo() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
+function PostWithVideo({ onToggle, isModalOpen }) {
   return (
     <>
       <button
-        onClick={toggleModal}
+        type="button"
+        onClick={onToggle}
         className="flex  items-center my-2 hover:bg-[#202227]  px-4 py-2 cursor-pointer rounded-md"
       >
         <svg
@@ -28,7 +23,7 @@ function PostWithVideo() {
         </svg>
         Video
       </button>
-      {isModalOpen && <UploadVideoModal onClose={toggleModal} />}
+      {isModalOpen && <UploadVideoModal onClose={onToggle} />}
     </>
   );
 }

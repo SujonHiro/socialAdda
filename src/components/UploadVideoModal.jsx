@@ -18,7 +18,6 @@ export default function UploadVideoModal({ onClose }) {
   };
   const updatePost = () => {
     const file = fileUploadRef.current.files[0];
-    //console.log(file);
 
     if (file) {
       setSelectedVideo(URL.createObjectURL(file));
@@ -27,6 +26,7 @@ export default function UploadVideoModal({ onClose }) {
 
   const handlePost = async (data) => {
     const file = fileUploadRef.current.files[0];
+    console.log(file);
 
     if (!file) {
       toast.error("Please select a video.");
@@ -47,26 +47,41 @@ export default function UploadVideoModal({ onClose }) {
     dispatch({ type: actions.post.DATA_FETCHING });
 
     onClose();
-
+    toast.info("Video Processing We will Notify you when Done");
     try {
-      // Step 3: Send request to backend
-      const response = await useAxios.post("/post", formData);
+      const response = await useAxios.post("/post", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      console.log("Full Response:", response); // Log the entire response to inspect the structure
+      console.log("Response Status:", response.status); // Log the status code
 
       if (response.status === 201) {
         dispatch({ type: actions.post.DATA_CREATED, data: response.data.data });
-
-        // Step 4: Show success toast after upload
         toast.success("Video uploaded successfully!");
-
-        // Step 5: Reset state after upload
         setSelectedVideo(null);
         reset();
+      } else if (response.status === 422) {
+        // Handle 422 error (validation failure)
+        const errors = response.data.errors.content_file;
+        if (errors && errors.length > 0) {
+          dispatch({
+            type: actions.post.DATA_FETCH_ERROR,
+            error: errors.join(" "), // Join the array of error messages into a single string
+          });
+          toast.error("Validation failed: " + errors.join(" "));
+          console.log("API Error 422:", errors);
+        } else {
+          toast.error("Validation failed: Please check the uploaded video.");
+          console.log("API Error 422: No content_file errors provided.");
+        }
       } else {
         dispatch({ type: actions.post.DATA_FETCH_ERROR });
         toast.error("Upload failed, please try again.");
+        console.log("API Error:", response.errors || "Unknown API error");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error caught:", error.response || error.message || error);
       toast.error("An error occurred while uploading.");
     }
   };
@@ -77,7 +92,7 @@ export default function UploadVideoModal({ onClose }) {
         <div className="relative bg-[#141519] rounded-lg p-6 w-md">
           {/* Modal Content */}
           <h2 className="text-lg font-semibold mb-4 flex justify-between items-center ">
-            Upload Photo{" "}
+            Upload Video{" "}
             <button
               onClick={onClose}
               className="cursor-pointer text-white text-xl"
@@ -97,11 +112,7 @@ export default function UploadVideoModal({ onClose }) {
             </button>
           </h2>
 
-          {/* Text Field */}
-          <form
-            encType="multipart/form-data"
-            onSubmit={handleSubmit(handlePost)}
-          >
+          <div encType="multipart/form-data">
             <div className="flex items-start gap-2">
               <img
                 src={User}
@@ -117,7 +128,6 @@ export default function UploadVideoModal({ onClose }) {
               />
             </div>
 
-            {/* File Upload */}
             <button
               onClick={handleImageUpload}
               className={`w-full cursor-pointer text-center flex flex-col justify-center items-center 
@@ -164,7 +174,6 @@ export default function UploadVideoModal({ onClose }) {
               hidden
             />
 
-            {/* Post Button */}
             <div className="flex gap-4 justify-end">
               <button
                 onClick={onClose}
@@ -173,15 +182,13 @@ export default function UploadVideoModal({ onClose }) {
                 Cancel
               </button>
               <button
-                type="submit"
+                onClick={handleSubmit(handlePost)}
                 className="cursor-pointer flex justify-center my-2  px-5 rounded-sm py-2  bg-blue-600 text-white text-sm hover:bg-[#0f6fec1a] hover:text-white transition-all duration-300"
               >
                 Post
               </button>
             </div>
-          </form>
-
-          {/* Close Button */}
+          </div>
         </div>
       </div>
     </>

@@ -5,9 +5,10 @@ import { actions } from "../action";
 import User from "../assets/images/avatars/user.jpg";
 import useAxios from "../hook/useAxios";
 import usePost from "../hook/usePost";
+import FullScreeenLoading from "./common/FullScreeenLoading";
 export default function UploadModal({ onClose }) {
   const [selectedImage, setSelectedImage] = useState(null);
-  const { dispatch } = usePost();
+  const { state, dispatch } = usePost();
   const { register, handleSubmit, reset } = useForm();
   const fileUploadRef = useRef();
 
@@ -74,6 +75,7 @@ export default function UploadModal({ onClose }) {
 
   return (
     <>
+      {state.loading && <FullScreeenLoading />}
       <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
         <div className="relative bg-[#141519] rounded-lg p-6 w-md">
           {/* Modal Content */}
@@ -99,10 +101,7 @@ export default function UploadModal({ onClose }) {
           </h2>
 
           {/* Text Field */}
-          <form
-            encType="multipart/form-data"
-            onSubmit={handleSubmit(handlePost)}
-          >
+          <div encType="multipart/form-data">
             <div className="flex items-start gap-2">
               <img
                 src={User}
@@ -168,13 +167,13 @@ export default function UploadModal({ onClose }) {
                 Cancel
               </button>
               <button
-                type="submit"
+                onClick={handleSubmit(handlePost)}
                 className="cursor-pointer flex justify-center my-2  px-5 rounded-sm py-2  bg-blue-600 text-white text-sm hover:bg-[#0f6fec1a] hover:text-white transition-all duration-300"
               >
                 Post
               </button>
             </div>
-          </form>
+          </div>
 
           {/* Close Button */}
         </div>

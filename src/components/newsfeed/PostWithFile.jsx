@@ -1,16 +1,11 @@
-import { useState } from "react";
 import UploadModal from "../UploadModal";
 
-export default function PostWithFile() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
+export default function PostWithFile({ onToggle, isModalOpen }) {
   return (
     <>
       <button
-        onClick={toggleModal}
+        type="button"
+        onClick={onToggle}
         className="flex  items-center my-2 hover:bg-[#202227]  px-3 py-2 cursor-pointer rounded-md"
       >
         <svg
@@ -27,7 +22,7 @@ export default function PostWithFile() {
         </svg>
         Photo
       </button>
-      {isModalOpen && <UploadModal onClose={toggleModal} />}
+      {isModalOpen && <UploadModal onClose={onToggle} />}
     </>
   );
 }
