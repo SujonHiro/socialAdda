@@ -8,9 +8,6 @@ import PostAction from "./PostAction";
 import PostBody from "./PostBody";
 
 export default function PostCard({ post }) {
-  //console.log("postcard", post.user.email);
-  //console.log(post.user.name);
-
   return (
     <>
       <div className="mb-3 bg-[#141519] rounded-md">

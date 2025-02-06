@@ -1,9 +1,31 @@
+import { useState } from "react";
 import ReactPlayer from "react-player";
 
 function PostBody({ content, poster, postType }) {
+  const [expanded, setExpanded] = useState(false);
+
+  const maxLength = 350; // 3 lines or approx 250 characters
+  const shouldTruncate = content.length > maxLength;
+  const visibleContent =
+    shouldTruncate && !expanded
+      ? content.slice(0, maxLength) + " ... "
+      : content;
   return (
     <div className="px-4">
-      <p className="mb-3" dangerouslySetInnerHTML={{ __html: content }} />
+      <p
+        className="mb-3 inline"
+        dangerouslySetInnerHTML={{
+          __html: visibleContent,
+        }}
+      />
+      {shouldTruncate && (
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="text-blue-500 cursor-pointer"
+        >
+          {expanded ? " See Less" : " See More"}
+        </button>
+      )}
       {postType === "video" && (
         <>
           <div className="w-full flex justify-center">
