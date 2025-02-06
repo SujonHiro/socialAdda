@@ -10,7 +10,7 @@ import PrivateRoutes from "./routes/PrivateRoutes";
 
 function App() {
   return (
-    <div>
+    <>
       <Routes>
         <Route element={<PrivateRoutes />}>
           <Route path="/" element={<HomePage />} exact />
@@ -31,7 +31,7 @@ function App() {
         draggable
         pauseOnHover
       />
-    </div>
+    </>
   );
 }
 

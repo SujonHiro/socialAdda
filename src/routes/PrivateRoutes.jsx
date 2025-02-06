@@ -15,7 +15,7 @@ function PrivateRoutes() {
             <PostProvider>
               <Header />
 
-              <div className="px-4 md:container">
+              <div className="md:px-4 md:container">
                 <div className="text-[#B9BBBE] py-5">
                   <div className="md:flex sm:gap-4 md:justify-between md:items-start md:gap-5">
                     <Outlet />

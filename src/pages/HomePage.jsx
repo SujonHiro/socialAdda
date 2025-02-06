@@ -48,18 +48,14 @@ export default function HomePage() {
           <LeftSideComponents />
         </div>
 
-        <div className="md:w-2/4 w-full">
+        <div className="md:w-2/4 max-w-full">
           <div className="flex flex-1 flex-col gap-4 self-stretch">
-            <ImageStory />
-            <CreatePost />
-          </div>
-          {/* {postData.length > 0 ? (
-          postData.map((post) => <div key={post.id}>{post.content}</div>)
-        ) : (
-          <p>Empty</p>
-        )} */}
-
-          <div>
+            <div className="mx-2">
+              <ImageStory />
+            </div>
+            <div className="mx-2">
+              <CreatePost />
+            </div>
             <PostList posts={state.posts} />{" "}
           </div>
         </div>
