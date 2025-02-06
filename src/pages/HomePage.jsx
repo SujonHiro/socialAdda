@@ -50,10 +50,10 @@ export default function HomePage() {
 
         <div className="md:w-2/4 max-w-full">
           <div className="flex flex-1 flex-col gap-4 self-stretch">
-            <div className="mx-2">
+            <div className="mx-4">
               <ImageStory />
             </div>
-            <div className="mx-2">
+            <div className="mx-4">
               <CreatePost />
             </div>
             <PostList posts={state.posts} />{" "}

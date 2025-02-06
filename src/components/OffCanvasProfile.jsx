@@ -8,7 +8,7 @@ export default function OffCanvasProfile() {
       {/* Button to Open Offcanvas */}
       <button
         onClick={toggleOffcanvas}
-        className="md:hidden text-gray-300 mx-2  font-medium"
+        className="md:hidden text-gray-300 mx-4  font-medium"
       >
         <div className="flex items-center">
           <span className="p-2 bg-blue-600 rounded-md me-2">
