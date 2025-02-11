@@ -18,57 +18,41 @@ export default function UploadModal({ onClose }) {
   };
   const updatePost = () => {
     const file = fileUploadRef.current.files[0];
-    //console.log(file);
-
     if (file) {
       setSelectedImage(URL.createObjectURL(file));
     }
   };
-
   const handlePost = async (data) => {
     const file = fileUploadRef.current.files[0];
-
     if (!file) {
       toast.error("Please select an image.");
       return;
     }
-
     if (!file.type.startsWith("image/")) {
       toast.error("Please upload a valid image file.");
       return;
     }
-
     const formData = new FormData();
     formData.append("content_file", file);
     formData.append("content", data.content);
     formData.append("content_type", "image");
 
-    // Step 1: Show loading state
     dispatch({ type: actions.post.DATA_FETCHING });
-
     onClose();
-
     try {
-      // Step 3: Send request to backend
       const response = await useAxios.post("/post", formData);
-
       if (response.status === 201) {
         dispatch({ type: actions.post.DATA_CREATED, data: response.data.data });
-
-        // Step 4: Show success toast after upload
         toast.success("Image uploaded successfully!");
-
         setSelectedImage(null);
         reset();
       } else {
         dispatch({ type: actions.post.DATA_FETCH_ERROR });
-
         toast.error("Upload failed, please try again.");
       }
     } catch (error) {
       console.error(error);
       dispatch({ type: actions.post.DATA_FETCH_ERROR });
-      //console.log(state.response.data.errors);
       toast.error("An error occurred while uploading.");
     }
   };
@@ -78,7 +62,6 @@ export default function UploadModal({ onClose }) {
       {state.loading && <FullScreeenLoading />}
       <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
         <div className="relative bg-[#141519] rounded-lg p-6 w-md">
-          {/* Modal Content */}
           <h2 className="text-lg font-semibold mb-4 flex justify-between items-center ">
             Upload Photo{" "}
             <button
@@ -100,7 +83,6 @@ export default function UploadModal({ onClose }) {
             </button>
           </h2>
 
-          {/* Text Field */}
           <div encType="multipart/form-data">
             <div className="flex items-start gap-2">
               <img
@@ -116,8 +98,6 @@ export default function UploadModal({ onClose }) {
                 id="content"
               />
             </div>
-
-            {/* File Upload */}
             <button
               onClick={handleImageUpload}
               className={`w-full cursor-pointer text-center flex flex-col justify-center items-center 
@@ -157,8 +137,6 @@ export default function UploadModal({ onClose }) {
               ref={fileUploadRef}
               hidden
             />
-
-            {/* Post Button */}
             <div className="flex gap-4 justify-end">
               <button
                 onClick={onClose}
@@ -174,8 +152,6 @@ export default function UploadModal({ onClose }) {
               </button>
             </div>
           </div>
-
-          {/* Close Button */}
         </div>
       </div>
     </>

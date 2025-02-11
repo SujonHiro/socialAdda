@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { actions } from "../../../action";
-import User from "../../../assets/images/avatars/user.jpg";
+import useAuth from "../../../hook/useAuth";
 import useAxios from "../../../hook/useAxios";
 import usePost from "../../../hook/usePost";
 import LoadingBar from "../../common/LoadingBar";
 
 function ContentPost({ onCreate }) {
   const { state, dispatch } = usePost();
-  //const axiosInstance = useAxios();
+  const { auth } = useAuth();
   const {
     register,
     handleSubmit,
@@ -44,7 +44,11 @@ function ContentPost({ onCreate }) {
       <div className="bg-[#141519] p-4 rounded-md my-3 ">
         <div className="flex gap-4">
           <div className="relative inline-block shrink-0">
-            <img src={User} alt="" className="size-8 rounded-full" />
+            <img
+              src={auth.user.profile_picture_url}
+              alt={auth.user.name}
+              className="size-8 rounded-full"
+            />
           </div>
           <form className="w-full" onSubmit={handleSubmit(onSubmitPost)}>
             <div>

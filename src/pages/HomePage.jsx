@@ -1,5 +1,8 @@
 import { useEffect } from "react";
 import { actions } from "../action";
+import UserOne from "../assets/images/avatars/1.jpg";
+import UserTwo from "../assets/images/avatars/2.jpg";
+import UserThree from "../assets/images/avatars/3.jpg";
 import FullScreeenLoading from "../components/common/FullScreeenLoading";
 import LeftSideComponents from "../components/LeftSideComponents";
 import ImageStory from "../components/newsfeed/ImageStory";
@@ -18,15 +21,11 @@ export default function HomePage() {
     const fetchPost = async () => {
       try {
         const response = await useAxios.get(`/posts`);
-        //console.log("response.data.data", response.data.data);
-
         if (response.status === 200) {
           dispatch({
             type: actions.post.DATA_FETCHED,
             data: response.data.data,
           });
-
-          //console.log(response.data);
         }
       } catch (error) {
         console.error(error);
@@ -35,8 +34,6 @@ export default function HomePage() {
     };
     fetchPost();
   }, []);
-
-  //console.log(state?.posts);
   state.error && <p>Something wrong</p>;
 
   return (
@@ -48,7 +45,7 @@ export default function HomePage() {
           <LeftSideComponents />
         </div>
 
-        <div className="md:w-2/4 max-w-full">
+        <div className="md:w-2/4  max-w-full">
           <div className="flex flex-1 flex-col gap-4 self-stretch">
             <div className="mx-4">
               <ImageStory />
@@ -56,7 +53,9 @@ export default function HomePage() {
             <div className="mx-4">
               <CreatePost />
             </div>
-            <PostList posts={state.posts} />{" "}
+            <div className="md:mx-4">
+              <PostList posts={state.posts} />{" "}
+            </div>
           </div>
         </div>
         <div className="md:w-1/4 bg-[#141519] rounded-md md:my-0 mt-4">
@@ -66,19 +65,13 @@ export default function HomePage() {
             </div>
             <div className="mb-3">
               <div className="flex justify-between items-center gap-2 py-2">
-                <div className="flex justify-center gap-2">
-                  <img
-                    src="../assets/images/avatars/1.jpg"
-                    width="54"
-                    height="54"
-                    className="rounded-full"
-                    alt=""
-                  />
+                <div className="flex justify-center items-center gap-2">
+                  <img src={UserOne} className=" size-10 rounded-full" alt="" />
                   <div>
-                    <a className="text-[.9375rem] font-medium" href="">
+                    <a className="text-md font-medium" href="">
                       Lori Ferguson
                     </a>
-                    <p className="text-sm font-semibold">News anchor</p>
+                    <p className="text-sm ">News anchor</p>
                   </div>
                 </div>
                 <button className="px-2 py-2 rounded-full text-sm flex justify-center items-center text-white bg-blue-600">
@@ -102,18 +95,12 @@ export default function HomePage() {
                 </button>
               </div>
               <div className="flex justify-between items-center gap-2 py-2">
-                <img
-                  src="../assets/images/avatars/2.jpg"
-                  width="54"
-                  height="54"
-                  className="rounded-full"
-                  alt=""
-                />
+                <img src={UserTwo} className="size-10 rounded-full" alt="" />
                 <div>
-                  <a className="text-[.9375rem] font-medium" href="">
+                  <a className="text-md font-medium" href="">
                     Frances Guerrero
                   </a>
-                  <p className="text-sm font-semibold">UI UX Designer</p>
+                  <p className="text-sm">UI UX Designer</p>
                 </div>
                 <button className="px-2 py-2 rounded-full text-sm ml-auto flex justify-center items-center text-blue-600 bg-[#0f6fec1a] hover:bg-blue-600 hover:text-white">
                   <span>
@@ -132,13 +119,7 @@ export default function HomePage() {
                 </button>
               </div>
               <div className="flex justify-between items-center gap-2 py-2">
-                <img
-                  src="../assets/images/avatars/3.jpg"
-                  width="54"
-                  height="54"
-                  className="rounded-full"
-                  alt=""
-                />
+                <img src={UserThree} className="size-10 rounded-full" alt="" />
                 <div>
                   <a className="text-[.9375rem] font-medium" href="">
                     Samuel Bishop

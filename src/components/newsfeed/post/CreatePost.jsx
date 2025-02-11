@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { actions } from "../../../action";
-import User from "../../../assets/images/avatars/user.jpg";
+import useAuth from "../../../hook/useAuth";
 import useAxios from "../../../hook/useAxios";
 import usePost from "../../../hook/usePost";
 import FullScreeenLoading from "../../common/FullScreeenLoading";
@@ -12,14 +12,14 @@ function CreatePost() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFileOpenModal, setIsFileOpenModal] = useState(false);
   const { state, dispatch } = usePost();
-
+  const { auth } = useAuth();
   const { register, handleSubmit, reset } = useForm();
 
   async function onSubmitPost(formData) {
     dispatch({ type: actions.post.DATA_FETCHING });
     try {
       const response = await useAxios.post(`/post`, formData);
-      console.log("response api", response.data.data);
+     
       if (response.status === 201) {
         dispatch({ type: actions.post.DATA_CREATED, data: response.data.data });
         reset();
@@ -47,7 +47,11 @@ function CreatePost() {
         <div className="p-4 rounded-md my-3">
           <div className="flex gap-4">
             <div className="relative inline-block shrink-0">
-              <img src={User} alt="" className="size-8 rounded-full" />
+              <img
+                src={auth.user.profile_picture_url}
+                alt={auth.user.name}
+                className="size-8 rounded-full"
+              />
             </div>
             <form className="w-full" onSubmit={handleSubmit(onSubmitPost)}>
               <textarea

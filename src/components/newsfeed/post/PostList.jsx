@@ -1,9 +1,7 @@
 import PostCard from "./PostCard";
 
 export default function PostList({ posts }) {
-  //console.log(posts[0].id);
-  //<PostCard key={index} post={post} />
-  //console.log(posts);
+  
 
   return (
     <>

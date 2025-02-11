@@ -27,8 +27,6 @@ export default function LoginForm() {
         formData
       );
 
-      console.log("API Response:", response);
-
       const { user, token } = response.data;
 
       if (response.status === 200 && response.data.user.is_verified === 1) {

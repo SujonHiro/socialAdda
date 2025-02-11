@@ -3,13 +3,14 @@ import { useForm } from "react-hook-form";
 import ReactPlayer from "react-player";
 import { toast } from "react-toastify";
 import { actions } from "../action";
-import User from "../assets/images/avatars/user.jpg";
+import useAuth from "../hook/useAuth";
 import useAxios from "../hook/useAxios";
 import usePost from "../hook/usePost";
 export default function UploadVideoModal({ onClose }) {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const { dispatch } = usePost();
   const { register, handleSubmit, reset } = useForm();
+  const { auth } = useAuth();
   const fileUploadRef = useRef();
 
   const handleImageUpload = (event) => {
@@ -51,7 +52,6 @@ export default function UploadVideoModal({ onClose }) {
     formData.append("content", data.content);
     formData.append("content_type", "video");
 
-    // Step 1: Show loading state
     dispatch({ type: actions.post.DATA_FETCHING });
 
     onClose();
@@ -61,21 +61,17 @@ export default function UploadVideoModal({ onClose }) {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      console.log("Full Response:", response); // Log the entire response to inspect the structure
-      console.log("Response Status:", response.status); // Log the status code
-
       if (response.status === 201) {
         dispatch({ type: actions.post.DATA_CREATED, data: response.data.data });
         toast.success("Video uploaded successfully!");
         setSelectedVideo(null);
         reset();
       } else if (response.status === 422) {
-        // Handle 422 error (validation failure)
         const errors = response.data.errors.content_file;
         if (errors && errors.length > 0) {
           dispatch({
             type: actions.post.DATA_FETCH_ERROR,
-            error: errors.join(" "), // Join the array of error messages into a single string
+            error: errors.join(" "),
           });
           toast.error("Validation failed: " + errors.join(" "));
           console.log("API Error 422:", errors);
@@ -123,9 +119,9 @@ export default function UploadVideoModal({ onClose }) {
           <div encType="multipart/form-data">
             <div className="flex items-start gap-2">
               <img
-                src={User}
+                src={auth.user.profile_picture_url}
                 className="size-10 rounded-full shrink-0"
-                alt="User ICon"
+                alt={auth.user.name}
               />
               <textarea
                 {...register("content")}

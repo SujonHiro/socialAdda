@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router";
-import User from "../../assets/images/avatars/user.jpg";
 import Logo from "../../assets/img/logo.svg";
+import useAuth from "../../hook/useAuth";
 import Logout from "../Logout";
 
 function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropDownRef = useRef();
-  //const { auth } = useAuth();
+  const { auth } = useAuth();
 
   function handleClick(event) {
     if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
@@ -85,7 +85,11 @@ function Header() {
               >
                 <span className="absolute"></span>
                 <span className="sr-only">Open user menu</span>
-                <img className="size-8 rounded-md" src={User} alt="" />
+                <img
+                  className="size-8 rounded-md"
+                  src={auth.user.profile_picture_url}
+                  alt=""
+                />
               </button>
               {isDropdownOpen && (
                 <div
@@ -102,10 +106,14 @@ function Header() {
                     tabIndex="-1"
                     id="user-menu-item-0"
                   >
-                    <img className="size-8 rounded-full" src={User} alt="" />
+                    <img
+                      className="size-8 rounded-full"
+                      src={auth.user.profile_picture_url}
+                      alt=""
+                    />
                     <div className="flex flex-col text-gray-300">
                       <span className="ml-2 font-bold text-md">
-                        {/* {auth.user.name} */} Tomas
+                        {auth.user.name}
                       </span>
                       <span className="ml-2 text-xs">Web Developer</span>
                     </div>

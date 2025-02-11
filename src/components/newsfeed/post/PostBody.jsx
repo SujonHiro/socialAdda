@@ -4,7 +4,7 @@ import ReactPlayer from "react-player";
 function PostBody({ content, poster, postType }) {
   const [expanded, setExpanded] = useState(false);
 
-  const maxLength = 350; // 3 lines or approx 250 characters
+  const maxLength = 350; 
   const shouldTruncate = content.length > maxLength;
   const visibleContent =
     shouldTruncate && !expanded

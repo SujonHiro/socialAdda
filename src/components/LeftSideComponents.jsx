@@ -1,8 +1,10 @@
+import { Link } from "react-router";
 import Connection from "../assets/icons/connection.svg";
 import Home from "../assets/icons/home.svg";
-import User from "../assets/images/avatars/user.jpg";
 import Cover from "../assets/images/cover.jpg";
+import useAuth from "../hook/useAuth";
 function LeftSideComponents() {
+  const { auth } = useAuth();
   return (
     <>
       <div
@@ -14,7 +16,7 @@ function LeftSideComponents() {
           <div className="avatar">
             <span role="button">
               <img
-                src={User}
+                src={auth.user.profile_picture_url}
                 width="64"
                 height="64"
                 alt="profile"
@@ -22,7 +24,9 @@ function LeftSideComponents() {
               />
             </span>
           </div>
-          <h1 className="text-xl text-white font-bold mt-2">Sam Lanson</h1>
+          <h1 className="text-xl text-white font-bold mt-2">
+            {auth.user.name}
+          </h1>
           <small className="font-medium">
             Web Developer at The Tech resolver
           </small>
@@ -66,9 +70,12 @@ function LeftSideComponents() {
       </div>
       <div className="border-t border-gray-700"></div>
       <div className="w-full p-4 text-center">
-        <button className="w-full cursor-pointer px-6 py-2 bg-[#0f6fec1a] rounded-sm text-blue-600 text-sm hover:bg-blue-600 hover:text-white">
+        <Link
+          to="/me"
+          className="w-full cursor-pointer px-6 py-2 bg-[#0f6fec1a] rounded-sm text-blue-600 text-sm hover:bg-blue-600 hover:text-white"
+        >
           View Profile
-        </button>
+        </Link>
       </div>
     </>
   );

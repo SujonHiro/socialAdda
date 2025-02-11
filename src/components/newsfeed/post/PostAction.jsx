@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router";
 
-function PostAction() {
+function PostAction({ onDelete }) {
   const [showDropDown, setShowDropDown] = useState(false);
 
   return (
@@ -25,8 +26,8 @@ function PostAction() {
         <div className="absolute z-20 inset-auto translate-x-[-100px] w-32 bg-[#141519] border border-gray-800 rounded-md p-4">
           <ul className="w-full flex flex-col items-start justify-start">
             <li>
-              <a
-                href="#"
+              <Link
+                to="#"
                 className="flex justify-center text-sm items-center hover:text-blue-600 mb-3"
               >
                 <svg
@@ -42,12 +43,13 @@ function PostAction() {
                   <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"></path>
                 </svg>
                 Edit Post
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex justify-center items-center text-sm mb-3 hover:text-blue-600"
+              <button
+               
+                onClick={onDelete}
+                className="flex justify-center items-center text-sm mb-3 hover:text-blue-600 cursor-pointer"
               >
                 <svg
                   stroke="currentColor"
@@ -63,7 +65,7 @@ function PostAction() {
                   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"></path>
                 </svg>
                 Delete Post
-              </a>
+              </button>
             </li>
           </ul>
         </div>

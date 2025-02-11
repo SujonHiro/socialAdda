@@ -1,12 +1,18 @@
 import User from "../../../assets/images/avatars/user.jpg";
+import useAuth from "../../../hook/useAuth";
 
 function Comment() {
+  const { auth } = useAuth();
   return (
     <>
       <div className="flex items-start justify-start">
         <div className="shrink-0 self-start">
           <a href="#">
-            <img src={User} className="size-8 rounded-full" alt="profile" />
+            <img
+              src={auth.user.profile_picture_url}
+              className="size-8 rounded-full"
+              alt="profile"
+            />
           </a>
         </div>
         <div className="px-4">

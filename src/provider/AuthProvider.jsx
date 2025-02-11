@@ -3,17 +3,22 @@ import { AuthContext } from "../context";
 
 function AuthProvider({ children }) {
   const [auth, setAuth] = useState(() => {
-    const token = localStorage.getItem("authToken");
-    return token ? { token } : {};
+    const token = sessionStorage.getItem("authToken");
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    return token ? { token, user } : {};
   });
 
   useEffect(() => {
     if (auth.token) {
-      localStorage.setItem("authToken", auth.token);
+      sessionStorage.setItem("authToken", auth.token);
+      if (auth.user) {
+        sessionStorage.setItem("user", JSON.stringify(auth.user));
+      }
     } else {
-      localStorage.removeItem("authToken");
+      sessionStorage.removeItem("authToken");
+      sessionStorage.removeItem("user");
     }
-  }, [auth.token]);
+  }, [auth]);
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
