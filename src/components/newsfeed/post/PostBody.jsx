@@ -13,7 +13,7 @@ function PostBody({ content, poster, postType }) {
   return (
     <div className="px-4">
       <p
-        className="mb-3 inline"
+        className=" inline"
         dangerouslySetInnerHTML={{
           __html: visibleContent,
         }}
@@ -43,7 +43,7 @@ function PostBody({ content, poster, postType }) {
       )}
       {postType === "image" && (
         <>
-          <img src={poster} className="rounded-md" alt="poster" />
+          <img src={poster} className="rounded-md my-2" alt="poster" />
         </>
       )}
     </div>

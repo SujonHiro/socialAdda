@@ -1,7 +1,7 @@
 import User from "../../../assets/images/avatars/user.jpg";
 import useAuth from "../../../hook/useAuth";
 
-function Comment() {
+function Comment({comments}) {
   const { auth } = useAuth();
   return (
     <>

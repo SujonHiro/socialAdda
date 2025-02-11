@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { actions } from "../action";
@@ -6,11 +6,20 @@ import User from "../assets/images/avatars/user.jpg";
 import useAxios from "../hook/useAxios";
 import usePost from "../hook/usePost";
 import FullScreeenLoading from "./common/FullScreeenLoading";
-export default function UploadModal({ onClose }) {
+export default function UploadModal({ onClose ,post}) {
   const [selectedImage, setSelectedImage] = useState(null);
   const { state, dispatch } = usePost();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset ,setValue} = useForm();
   const fileUploadRef = useRef();
+
+  console.log(post);
+  
+  useEffect(() => {
+    if (post) {
+      setSelectedImage(post.content_url);
+      setValue("content", post.content);
+    }
+  }, [post]);
 
   const handleImageUpload = (event) => {
     event.preventDefault();
@@ -24,32 +33,49 @@ export default function UploadModal({ onClose }) {
   };
   const handlePost = async (data) => {
     const file = fileUploadRef.current.files[0];
-    if (!file) {
-      toast.error("Please select an image.");
-      return;
-    }
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please upload a valid image file.");
-      return;
-    }
     const formData = new FormData();
-    formData.append("content_file", file);
+    if(file){
+      if (!file.type.startsWith("image/")) {
+        toast.error("Please upload a valid image file.");
+        return;
+      }
+      formData.append("content_file", file);
+     
+    }
     formData.append("content", data.content);
     formData.append("content_type", "image");
+   
+    
 
     dispatch({ type: actions.post.DATA_FETCHING });
     onClose();
     try {
-      const response = await useAxios.post("/post", formData);
+      if(post){
+        const response = await useAxios.post(`/post/${post.id}`, formData);
+        console.log(response);
+        if (response.status === 200) {
+          dispatch({ type: actions.post.DATA_EDITED, data: response.data.data });
+          toast.success("Image updated successfully!");
+          
+        }
+      }else{
+        if (!file) {
+          toast.error("Please select an image.");
+          return;
+        }
+        const response = await useAxios.post("/post", formData);
       if (response.status === 201) {
         dispatch({ type: actions.post.DATA_CREATED, data: response.data.data });
         toast.success("Image uploaded successfully!");
-        setSelectedImage(null);
-        reset();
+      
       } else {
         dispatch({ type: actions.post.DATA_FETCH_ERROR });
         toast.error("Upload failed, please try again.");
       }
+      }
+      setSelectedImage(null);
+      reset();
+      
     } catch (error) {
       console.error(error);
       dispatch({ type: actions.post.DATA_FETCH_ERROR });

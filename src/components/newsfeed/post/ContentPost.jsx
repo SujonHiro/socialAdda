@@ -5,8 +5,9 @@ import useAuth from "../../../hook/useAuth";
 import useAxios from "../../../hook/useAxios";
 import usePost from "../../../hook/usePost";
 import LoadingBar from "../../common/LoadingBar";
+import { useEffect } from "react";
 
-function ContentPost({ onCreate }) {
+function ContentPost({ onCreate, post }) {
   const { state, dispatch } = usePost();
   const { auth } = useAuth();
   const {
@@ -14,19 +15,26 @@ function ContentPost({ onCreate }) {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm();
+  
+  useEffect(() => {
+    if (post) {
+      setValue("content", post.content || "");
+    }
+  }, [post, setValue]);
+
 
   async function onSubmitPost(formData) {
     dispatch({ type: actions.post.DATA_FETCHING });
     try {
       const response = await useAxios.post(`/post`, formData);
-      console.log("response api", response.data.data);
       if (response.status === 201) {
         dispatch({ type: actions.post.DATA_CREATED, data: response.data.data });
         reset();
         toast.success("Post Created Successfully");
       }
-      onCreate();
+      
     } catch (error) {
       console.log(error);
       dispatch({ type: actions.post.DATA_FETCH_ERROR });
@@ -58,6 +66,7 @@ function ContentPost({ onCreate }) {
                 placeholder="Share your thoughts..."
                 id="content"
                 name="content"
+              
               ></textarea>
               {errors.content && (
                 <span className="text-red-500">{errors.content.message}</span>
@@ -68,7 +77,7 @@ function ContentPost({ onCreate }) {
               type="submit"
               className="cursor-pointer me-3 my-2 mx-auto px-5 rounded-sm py-2 bg-[#0f6fec1a] text-blue-600 text-sm hover:bg-blue-600 hover:text-white transition-all duration-200"
             >
-              Post
+              {post ? "Update" : "Post"}
             </button>
             <button
               onClick={handleClose}
