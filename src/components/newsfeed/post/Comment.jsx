@@ -1,11 +1,14 @@
-import User from "../../../assets/images/avatars/user.jpg";
-import useAuth from "../../../hook/useAuth";
+import { Link } from "react-router";
 
+import useAuth from "../../../hook/useAuth";
+import {formatDate} from "../../../utils/formatime"
 function Comment({comments}) {
   const { auth } = useAuth();
+
   return (
     <>
-      <div className="flex items-start justify-start">
+     {comments.length>0?(comments.map((comment)=>(
+      <div key={comment.id}  className="flex items-start justify-start">
         <div className="shrink-0 self-start">
           <a href="#">
             <img
@@ -15,22 +18,21 @@ function Comment({comments}) {
             />
           </a>
         </div>
-        <div className="px-4">
-          <div>
-            <div className="bg-[#202227] p-4">
-              <div className="flex justify-between items-center">
-                <a
-                  href="#"
+       
+          <div className="w-full px-4">
+          <div  >
+            <div className="bg-[#202227] p-4 w-full">
+              <div className=" flex justify-between items-center">
+                <Link
+                  to="#"
                   className="font-bold text-white text-lg hover:text-blue-600"
                 >
-                  Sam Lanson
-                </a>
-                <span className="text-normal text-sm">6 hour ago</span>
+                  {auth.user.name}
+                </Link>
+                <span className="text-normal text-sm"> {formatDate(comment.created_at)} </span>
               </div>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. A nulla
-                perspiciatis repellat esse accusantium eos, accusamus quas,
-                voluptatibus magni porro...
+               {comment.content}
               </p>
             </div>
             <ul className="pt-2 flex justify-start gap-4">
@@ -46,53 +48,9 @@ function Comment({comments}) {
               </li>
             </ul>
           </div>
-          <div className="flex py-4">
-            <div className="shrink-0 self-start">
-              <a href="#">
-                <img src={User} className="size-8 rounded-full" alt="profile" />
-              </a>
-            </div>
-            <div className="ml-2">
-              <div>
-                <div className="bg-[#202227] p-4">
-                  <div className="flex justify-between items-center">
-                    <a
-                      href="#"
-                      className="font-bold text-white text-lg hover:text-blue-600"
-                    >
-                      Sam Lanson
-                    </a>
-                    <span className="text-normal text-sm">6 hour ago</span>
-                  </div>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. A
-                    nulla perspiciatis repellat esse...
-                  </p>
-                </div>
-                <ul className="pt-2 flex justify-start gap-4">
-                  <li>
-                    <a
-                      href=""
-                      className="text-sm font-normal hover:text-blue-600"
-                    >
-                      Like (5)
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href=""
-                      className="text-sm font-normal hover:text-blue-600"
-                    >
-                      Replay
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div></div>
-            </div>
-          </div>
+          
         </div>
-      </div>
+      </div>))):null}
     </>
   );
 }

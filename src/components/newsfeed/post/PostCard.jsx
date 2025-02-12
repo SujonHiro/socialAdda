@@ -6,7 +6,7 @@ import Comment from "./Comment";
 import CreateComment from "./CreateComment";
 import PostAction from "./PostAction";
 import PostBody from "./PostBody";
-import { actions } from "../../../action";
+import { actions } from "../../../action/index";
 import usePost from "../../../hook/usePost";
 import useAxios from "../../../hook/useAxios";
 import { toast } from "react-toastify";
@@ -28,6 +28,10 @@ export default function PostCard({ post }) {
     post.likes?.some(like => like.user_id === auth.user.id)
   );
   const [likesCount, setLikesCount] = useState(post.likes_count || 0);
+
+  console.log(post.comments);
+  
+
   const handleDeletePost = async () => {
     if (!window.confirm("Are you sure you want to delete this post?")) {
       return;
@@ -191,7 +195,7 @@ export default function PostCard({ post }) {
               />
             </Link>
             {/* <!--comment Post started--> */}
-            <CreateComment />
+            <CreateComment  postId={post.id}/>
           </div>
         </div>
         {/* <!--posted Comment started here--> */}

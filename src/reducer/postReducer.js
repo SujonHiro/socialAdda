@@ -31,7 +31,9 @@ const postReducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        posts: state.posts.map((post) => post.id === action.data.id ? action.data : post),
+        posts: state.posts.map((post) =>
+          post.id === action.data.id ? action.data : post
+        ),
       };
     }
     case actions.post.POST_DELETED: {
@@ -39,6 +41,19 @@ const postReducer = (state, action) => {
         ...state,
         loading: false,
         posts: state.posts.filter((post) => post.id !== action.data),
+      };
+    }
+    case actions.post.POST_COMMENTED: {
+      return {
+        ...state,
+        posts: state.posts.map((post) =>
+          post.id === action.data.postId
+            ? {
+                ...post,
+                comments: [...(post.comments || []), action.data.comment],
+              }
+            : post
+        ),
       };
     }
 
