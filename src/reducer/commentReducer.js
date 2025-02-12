@@ -15,6 +15,8 @@ const commentReducer = (state, action) => {
       };
     }
     case actions.comment.POST_COMMENTED: {
+      console.log(action.data);
+
       return {
         ...state,
         loading: false,
@@ -22,31 +24,13 @@ const commentReducer = (state, action) => {
       };
     }
     case actions.comment.POST_COMMENT_CREATED: {
-      const newComment = {
-        ...action.data,
-        replies: [],
-      };
-
-      console.log(newComment);
-
-      if (newComment.parent_comment_id) {
-        return {
-          ...state,
-          loading: false,
-          comments: state.comments.map((comment) =>
-            comment.id === newComment.parent_comment_id
-              ? {
-                  ...comment,
-                  replies: [newComment, ...(comment.replies || [])],
-                }
-              : comment
-          ),
-        };
-      }
       return {
         ...state,
-        loading: false,
-        comments: [newComment, ...state.comments],
+        comments: state.comments.map((comment) =>
+          comment.id === action.data.parent_comment_id
+            ? { ...comment, replies: [...(comment.replies || []), action.data] }
+            : comment
+        ),
       };
     }
 

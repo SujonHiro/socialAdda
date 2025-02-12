@@ -26,7 +26,7 @@ function CreateComment({
       const response = await useAxios.post("/comment", {
         post_id: postId,
         content: data.comment,
-        parent_comment_id: parentCommentId || null,
+        parent_id: parentCommentId || null,
       });
       console.log(response);
 
