@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+
 
 function PostAction({ onDelete,onEdit }) {
   const [showDropDown, setShowDropDown] = useState(false);
@@ -23,7 +23,7 @@ function PostAction({ onDelete,onEdit }) {
         </svg>
       </button>
       {showDropDown && (
-        <div className="absolute z-20  inset-auto translate-x-[-120px] w-32 bg-[#141519] border border-gray-800 rounded-md p-4">
+        <div className="absolute z-20 inset-auto translate-x-[-120px] w-32 bg-[#141519] border border-gray-800 rounded-md p-4">
           <ul className="w-full flex flex-col items-start justify-start">
             <li>
               <button
