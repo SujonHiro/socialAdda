@@ -4,12 +4,13 @@ import ReactPlayer from "react-player";
 function PostBody({ content, poster, postType }) {
   const [expanded, setExpanded] = useState(false);
 
-  const maxLength = 350; 
-  const shouldTruncate = content.length > maxLength;
+  const maxLength = 350;
+  const safeContent = content || ""; // Ensures content is never null
+  const shouldTruncate = safeContent.length > maxLength;
   const visibleContent =
     shouldTruncate && !expanded
-      ? content.slice(0, maxLength) + " ... "
-      : content;
+      ? safeContent.slice(0, maxLength) + " ... "
+      : safeContent;
   return (
     <div className="px-4">
       <p
