@@ -16,9 +16,9 @@ export default function UploadVideoModal({ onClose, post }) {
   useEffect(() => {
     if (post) {
       setSelectedVideo(post.content_url);
-      setValue("content", post.content);
+      setValue("content", post.content || "");
     }
-  }, [post]);
+  }, [setValue, post]);
 
   const handleImageUpload = (event) => {
     event.preventDefault();
@@ -40,36 +40,35 @@ export default function UploadVideoModal({ onClose, post }) {
       if (file.size > maxSize) {
         toast.error("File size exceeds the 20MB limit. Your file is 20MB");
         return;
-      }else if(file.type !== "video/mp4") {
+      } else if (file.type !== "video/mp4") {
         toast.error("Please upload a mp4 video Only.");
         return;
-      }else if(!file.type.startsWith("video/")) {
+      } else if (!file.type.startsWith("video/")) {
         toast.error("Please upload a valid video file.");
         return;
       }
       formData.append("content_file", file);
     }
-    
+
     formData.append("content", data.content);
     formData.append("content_type", "video");
-    
-
- 
-    
 
     dispatch({ type: actions.post.DATA_FETCHING });
 
     onClose();
     toast.info("Video Processing We will Notify you when Done");
     try {
-      if(post){
+      if (post) {
         const response = await useAxios.post(`/post/${post.id}`, formData);
-        
+
         if (response.status === 200) {
-          dispatch({ type: actions.post.DATA_EDITED, data: response.data.data });
+          dispatch({
+            type: actions.post.DATA_EDITED,
+            data: response.data.data,
+          });
           toast.success(" Post updated successfully!");
         }
-      }else{
+      } else {
         if (!file) {
           toast.error("Please select a video.");
           return;
@@ -77,9 +76,12 @@ export default function UploadVideoModal({ onClose, post }) {
         const response = await useAxios.post("/post", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-  
+
         if (response.status === 201) {
-          dispatch({ type: actions.post.DATA_CREATED, data: response.data.data });
+          dispatch({
+            type: actions.post.DATA_CREATED,
+            data: response.data.data,
+          });
           toast.success("Video uploaded successfully!");
           setSelectedVideo(null);
           reset();

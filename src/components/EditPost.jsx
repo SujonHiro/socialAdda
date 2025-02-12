@@ -1,26 +1,41 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { actions } from "../action";
 import User from "../assets/images/avatars/user.jpg";
 import useAxios from "../hook/useAxios";
 import usePost from "../hook/usePost";
-import { actions } from "../action";
 
 function EditPost({ onClose, post }) {
-  const { register, handleSubmit, reset, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    setValue,
+  } = useForm();
   const { dispatch } = usePost();
 
   useEffect(() => {
     if (post) {
-      setValue("content", post.content || "");
+      setValue("content", post.content);
     }
   }, [post, setValue]);
 
   const onSubmit = async (formData) => {
+    dispatch({ type: actions.post.DATA_FETCHING });
+    if (formData === "") {
+      toast.error("please input first");
+    }
     try {
       const response = await useAxios.post(`/post/${post.id}`, formData);
       console.log(response);
       if (response.status === 200) {
-        dispatch({type:actions.post.DATA_EDITED})
+        dispatch({
+          type: actions.post.DATA_EDITED,
+          data: response.data.data,
+        });
+        toast.success("your Post updated successfully");
       }
       reset;
       onClose();
@@ -33,18 +48,25 @@ function EditPost({ onClose, post }) {
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
       <div className="relative bg-[#141519] rounded-lg p-6 w-md">
         <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
-          <div className="flex items-start gap-2">
-            <img
-              src={User}
-              className="size-10 rounded-full shrink-0"
-              alt="User Icon"
-            />
-            <textarea
-              {...register("content", { required: true })}
-              placeholder="Enter caption..."
-              className="w-full form-control p-2 mb-4 border-none rounded-lg focus:outline-none"
-              id="content"
-            />
+          <div>
+            <div className="flex items-start gap-2">
+              <img
+                src={User}
+                className="size-10 rounded-full shrink-0"
+                alt="User Icon"
+              />
+              <textarea
+                {...register("content", { required: "Content is required" })}
+                placeholder="Enter caption..."
+                className="w-full form-control p-2 mb-4 border-none rounded-lg focus:outline-none"
+                id="content"
+              />
+            </div>
+            {errors.content && (
+              <p className="ml-[50px] text-red-600 text-sm">
+                {errors.content.message}
+              </p>
+            )}
           </div>
 
           <div className="flex gap-4 justify-end">

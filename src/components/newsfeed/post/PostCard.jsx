@@ -30,8 +30,6 @@ export default function PostCard({ post }) {
   );
   const [likesCount, setLikesCount] = useState(post.likes_count || 0);
 
-  console.log(post.comments);
-
   const handleDeletePost = async () => {
     if (!window.confirm("Are you sure you want to delete this post?")) {
       return;
