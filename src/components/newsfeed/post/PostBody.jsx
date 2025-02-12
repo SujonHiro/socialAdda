@@ -13,7 +13,7 @@ function PostBody({ content, poster, postType }) {
   return (
     <div className="px-4">
       <p
-        className=" inline"
+        className="inline"
         dangerouslySetInnerHTML={{
           __html: visibleContent,
         }}
@@ -29,7 +29,7 @@ function PostBody({ content, poster, postType }) {
       {postType === "video" && (
         <>
           <div className="w-full flex justify-center">
-            <div className="relative w-full md:w-[720px] lg:w-[900px] rounded-b-md">
+            <div className="relative w-full max-w-[800px] aspect-video rounded-b-md overflow-hidden">
               <ReactPlayer
                 url={poster}
                 width="100%"

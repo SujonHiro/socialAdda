@@ -40,7 +40,6 @@ export default function UploadModal({ onClose ,post}) {
         return;
       }
       formData.append("content_file", file);
-     
     }
     formData.append("content", data.content);
     formData.append("content_type", "image");

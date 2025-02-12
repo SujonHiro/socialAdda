@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import ReactPlayer from "react-player";
 import { toast } from "react-toastify";
@@ -6,12 +6,19 @@ import { actions } from "../action";
 import useAuth from "../hook/useAuth";
 import useAxios from "../hook/useAxios";
 import usePost from "../hook/usePost";
-export default function UploadVideoModal({ onClose }) {
+export default function UploadVideoModal({ onClose, post }) {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const { dispatch } = usePost();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, setValue } = useForm();
   const { auth } = useAuth();
   const fileUploadRef = useRef();
+
+  useEffect(() => {
+    if (post) {
+      setSelectedVideo(post.content_url);
+      setValue("content", post.content);
+    }
+  }, [post]);
 
   const handleImageUpload = (event) => {
     event.preventDefault();
@@ -27,62 +34,73 @@ export default function UploadVideoModal({ onClose }) {
 
   const handlePost = async (data) => {
     const file = fileUploadRef.current.files[0];
-
-    if (!file) {
-      toast.error("Please select a video.");
-      return;
-    }
-    if (file.type !== "video/mp4") {
-      toast.error("Please upload a mp4 video Only.");
-      return;
-    }
-    const maxSize = 20 * 1024 * 1024;
-    if (file.size > maxSize) {
-      toast.error("File size exceeds the 20MB limit. Your file is 20MB");
-      return;
-    }
-
-    if (!file.type.startsWith("video/")) {
-      toast.error("Please upload a valid video file.");
-      return;
-    }
-
     const formData = new FormData();
-    formData.append("content_file", file);
+    const maxSize = 20 * 1024 * 1024;
+    if (file) {
+      if (file.size > maxSize) {
+        toast.error("File size exceeds the 20MB limit. Your file is 20MB");
+        return;
+      }else if(file.type !== "video/mp4") {
+        toast.error("Please upload a mp4 video Only.");
+        return;
+      }else if(!file.type.startsWith("video/")) {
+        toast.error("Please upload a valid video file.");
+        return;
+      }
+      formData.append("content_file", file);
+    }
+    
     formData.append("content", data.content);
     formData.append("content_type", "video");
+    
+
+ 
+    
 
     dispatch({ type: actions.post.DATA_FETCHING });
 
     onClose();
     toast.info("Video Processing We will Notify you when Done");
     try {
-      const response = await useAxios.post("/post", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      if (response.status === 201) {
-        dispatch({ type: actions.post.DATA_CREATED, data: response.data.data });
-        toast.success("Video uploaded successfully!");
-        setSelectedVideo(null);
-        reset();
-      } else if (response.status === 422) {
-        const errors = response.data.errors.content_file;
-        if (errors && errors.length > 0) {
-          dispatch({
-            type: actions.post.DATA_FETCH_ERROR,
-            error: errors.join(" "),
-          });
-          toast.error("Validation failed: " + errors.join(" "));
-          console.log("API Error 422:", errors);
-        } else {
-          toast.error("Validation failed: Please check the uploaded video.");
-          console.log("API Error 422: No content_file errors provided.");
+      if(post){
+        const response = await useAxios.post(`/post/${post.id}`, formData);
+        
+        if (response.status === 200) {
+          dispatch({ type: actions.post.DATA_EDITED, data: response.data.data });
+          toast.success(" Post updated successfully!");
         }
-      } else {
-        dispatch({ type: actions.post.DATA_FETCH_ERROR });
-        toast.error("Upload failed, please try again.");
-        console.log("API Error:", response.errors || "Unknown API error");
+      }else{
+        if (!file) {
+          toast.error("Please select a video.");
+          return;
+        }
+        const response = await useAxios.post("/post", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+  
+        if (response.status === 201) {
+          dispatch({ type: actions.post.DATA_CREATED, data: response.data.data });
+          toast.success("Video uploaded successfully!");
+          setSelectedVideo(null);
+          reset();
+        } else if (response.status === 422) {
+          const errors = response.data.errors.content_file;
+          if (errors && errors.length > 0) {
+            dispatch({
+              type: actions.post.DATA_FETCH_ERROR,
+              error: errors.join(" "),
+            });
+            toast.error("Validation failed: " + errors.join(" "));
+            console.log("API Error 422:", errors);
+          } else {
+            toast.error("Validation failed: Please check the uploaded video.");
+            console.log("API Error 422: No content_file errors provided.");
+          }
+        } else {
+          dispatch({ type: actions.post.DATA_FETCH_ERROR });
+          toast.error("Upload failed, please try again.");
+          console.log("API Error:", response.errors || "Unknown API error");
+        }
       }
     } catch (error) {
       console.error("Error caught:", error.response || error.message || error);
@@ -189,7 +207,7 @@ export default function UploadVideoModal({ onClose }) {
                 onClick={handleSubmit(handlePost)}
                 className="cursor-pointer flex justify-center my-2  px-5 rounded-sm py-2  bg-blue-600 text-white text-sm hover:bg-[#0f6fec1a] hover:text-white transition-all duration-300"
               >
-                Post
+                {post ? "Update" : "Post"}
               </button>
             </div>
           </div>
