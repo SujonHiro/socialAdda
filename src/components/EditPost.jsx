@@ -2,11 +2,12 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { actions } from "../action";
-import User from "../assets/images/avatars/user.jpg";
+import useAuth from "../hook/useAuth";
 import useAxios from "../hook/useAxios";
 import usePost from "../hook/usePost";
 
 function EditPost({ onClose, post }) {
+  const { auth } = useAuth();
   const {
     register,
     handleSubmit,
@@ -51,7 +52,7 @@ function EditPost({ onClose, post }) {
           <div>
             <div className="flex items-start gap-2">
               <img
-                src={User}
+                src={auth.user.profile_picture_url}
                 className="size-10 rounded-full shrink-0"
                 alt="User Icon"
               />

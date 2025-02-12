@@ -1,48 +1,49 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-
 import { actions } from "../../../action/index";
-import usePost from "../../../hook/usePost";
 import useAxios from "../../../hook/useAxios";
+import useComment from "../../../hook/useComment";
 
-function CreateComment({ postId, userId }) {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  const [loading, setLoading] = useState(false);
-const{dispatch}=usePost()
+function CreateComment({
+  postId,
+  parentCommentId,
+  onCommentAdded,
+  setShowCommentModal,
+}) {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const { state, dispatch } = useComment();
   const onSubmit = async (data) => {
-    if (!data.comment.trim()) return; // Prevent empty comments
+    if (!data.comment.trim()) return;
 
-    setLoading(true);
+    dispatch({ type: actions.comment.COMMENT_FETCHING });
 
     try {
-      const response = await useAxios.post(
-        "/comment",
-        {
-          user_id: userId,
-          post_id: postId,
-          content: data.comment,
-          parent_comment_id: null, // Modify if it's a reply
-        }
-      );
+      const response = await useAxios.post("/comment", {
+        post_id: postId,
+        content: data.comment,
+        parent_comment_id: parentCommentId || null,
+      });
       console.log(response);
-      
 
       if (response.data.success) {
-        reset(); // Reset form input after success
         dispatch({
-          type: actions.post.POST_COMMENTED,
-          data: {
-            postId: postId,
-            comment: response.data.data, // New comment data from API
-          },
+          type: actions.comment.POST_COMMENT_CREATED,
+          data: response.data.data,
         });
+        onCommentAdded();
+        setShowCommentModal(true);
+        reset();
       } else {
         console.error("Failed to post comment", response.data);
       }
     } catch (error) {
       console.error("Error posting comment:", error);
-    } finally {
-      setLoading(false);
+      dispatch({ type: actions.comment.COMMENT_FETCH_ERROR });
     }
   };
 
@@ -53,15 +54,19 @@ const{dispatch}=usePost()
         placeholder="Add a comment..."
         className="border border-[#202227] form-control focus:outline-none focus:border-blue-600 w-full px-3 py-2 rounded-md"
         {...register("comment", { required: "Comment cannot be empty" })}
-        disabled={loading}
+        disabled={state?.loading}
       />
-      {errors.comment && <p className="text-red-500">{errors.comment.message}</p>}
+      {errors.comment && (
+        <p className="text-red-500">{errors.comment.message}</p>
+      )}
       <button
         type="submit"
         className="absolute right-2 top-[50%] hover:text-blue-600 transform translate-y-[-50%] disabled:opacity-50"
-        disabled={loading}
+        disabled={state?.loading}
       >
-        {loading ? "..." : (
+        {state?.loading ? (
+          "..."
+        ) : (
           <svg
             stroke="currentColor"
             fill="currentColor"

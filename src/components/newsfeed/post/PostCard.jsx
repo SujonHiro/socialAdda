@@ -6,8 +6,6 @@ import useAxios from "../../../hook/useAxios";
 import usePost from "../../../hook/usePost";
 import { formatDate } from "../../../utils/formatime";
 import ActionDataCount from "./ActionDataCount";
-import Comment from "./Comment";
-import CreateComment from "./CreateComment";
 import PostAction from "./PostAction";
 import PostBody from "./PostBody";
 
@@ -15,6 +13,7 @@ import { useState } from "react";
 import EditPost from "../../EditPost";
 import UploadModal from "../../UploadModal";
 import UploadVideoModal from "../../UploadVideoModal";
+import CommentSection from "./CommentSection";
 
 export default function PostCard({ post }) {
   const { auth } = useAuth();
@@ -29,6 +28,7 @@ export default function PostCard({ post }) {
     post.likes?.some((like) => like.user_id === auth.user.id)
   );
   const [likesCount, setLikesCount] = useState(post.likes_count || 0);
+  const [countComments, setCountCommnets] = useState(post.comments_count || 0);
 
   const handleDeletePost = async () => {
     if (!window.confirm("Are you sure you want to delete this post?")) {
@@ -61,7 +61,6 @@ export default function PostCard({ post }) {
   };
 
   const handleLikePost = async () => {
-    // Optimistic update before API call
     const newLikedState = !isLiked;
     const updatedLikesCount = newLikedState ? likesCount + 1 : likesCount - 1;
 
@@ -72,7 +71,6 @@ export default function PostCard({ post }) {
       const response = await useAxios.post(`/post/${post.id}/like`);
 
       if (response.status === 201) {
-        // Ensure likesCount updates based on API response
         setLikesCount(response.data.total_likes);
       } else {
         throw new Error("Failed to like the post");
@@ -80,10 +78,13 @@ export default function PostCard({ post }) {
     } catch (error) {
       console.error("Error liking the post:", error);
 
-      // Rollback UI if API fails
       setIsLiked(!newLikedState);
       setLikesCount(likesCount);
     }
+  };
+
+  const handleCommentAdded = () => {
+    setCountCommnets((prev) => prev + 1);
   };
   return (
     <>
@@ -124,7 +125,7 @@ export default function PostCard({ post }) {
 
           <div className="my-3">
             <div className="border border-gray-800"></div>
-            <ActionDataCount post={post} likesCount={likesCount} />
+            <ActionDataCount likesCount={likesCount} post={countComments} />
             <div className="px-4 py-1 flex justify-between items-center">
               <button
                 onClick={handleLikePost}
@@ -185,23 +186,13 @@ export default function PostCard({ post }) {
             </div>
           </div>
         </div>
-        <div className="p-4">
-          <div className="flex gap-2 items-center ">
-            <Link to="#" className="shrink-0">
-              <img
-                src={auth.user.profile_picture_url}
-                className="size-8 rounded-full "
-                alt=""
-              />
-            </Link>
-            {/* <!--comment Post started--> */}
-            <CreateComment postId={post.id} />
-          </div>
-        </div>
+        <CommentSection
+          post={post}
+          showCommentModal={showCommentModal}
+          onCommentAdded={handleCommentAdded}
+          setShowCommentModal={setShowCommentModal}
+        />
         {/* <!--posted Comment started here--> */}
-        <div className="p-4">
-          {showCommentModal && <Comment comments={post.comments} />}
-        </div>
       </div>
       {/* Modals for Editing */}
       {showTextArea && (
