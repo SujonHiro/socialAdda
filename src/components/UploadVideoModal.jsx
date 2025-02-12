@@ -160,12 +160,12 @@ export default function UploadVideoModal({ onClose, post }) {
             >
               <label htmlFor="file-upload" className="cursor-pointer ">
                 {selectedVideo ? (
-                  <div className="w-full max-h-64 overflow-hidden rounded-lg">
+                  <div className="w-full aspect-2/3 max-h-44 overflow-hidden rounded-lg">
                     <ReactPlayer
                       url={selectedVideo}
                       controls
                       width="100%"
-                      height="auto"
+                      height="100%"
                       className="rounded-lg"
                     />
                   </div>
