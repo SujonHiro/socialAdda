@@ -5,7 +5,7 @@ function PostBody({ content, poster, postType }) {
   const [expanded, setExpanded] = useState(false);
 
   const maxLength = 350;
-  const safeContent = content || ""; // Ensures content is never null
+  const safeContent = content || "";
   const shouldTruncate = safeContent.length > maxLength;
   const visibleContent =
     shouldTruncate && !expanded

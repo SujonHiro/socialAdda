@@ -1,19 +1,20 @@
 import { Link } from "react-router";
+import { toast } from "react-toastify";
+import { actions } from "../../../action/index";
 import useAuth from "../../../hook/useAuth";
+import useAxios from "../../../hook/useAxios";
+import usePost from "../../../hook/usePost";
 import { formatDate } from "../../../utils/formatime";
 import ActionDataCount from "./ActionDataCount";
 import Comment from "./Comment";
 import CreateComment from "./CreateComment";
 import PostAction from "./PostAction";
 import PostBody from "./PostBody";
-import { actions } from "../../../action/index";
-import usePost from "../../../hook/usePost";
-import useAxios from "../../../hook/useAxios";
-import { toast } from "react-toastify";
 
+import { useState } from "react";
+import EditPost from "../../EditPost";
 import UploadModal from "../../UploadModal";
 import UploadVideoModal from "../../UploadVideoModal";
-import { useState } from "react";
 
 export default function PostCard({ post }) {
   const { auth } = useAuth();
@@ -25,12 +26,11 @@ export default function PostCard({ post }) {
   const [showVideoPostModal, setShowVideoPostModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [isLiked, setIsLiked] = useState(
-    post.likes?.some(like => like.user_id === auth.user.id)
+    post.likes?.some((like) => like.user_id === auth.user.id)
   );
   const [likesCount, setLikesCount] = useState(post.likes_count || 0);
 
   console.log(post.comments);
-  
 
   const handleDeletePost = async () => {
     if (!window.confirm("Are you sure you want to delete this post?")) {
@@ -66,13 +66,13 @@ export default function PostCard({ post }) {
     // Optimistic update before API call
     const newLikedState = !isLiked;
     const updatedLikesCount = newLikedState ? likesCount + 1 : likesCount - 1;
-  
+
     setIsLiked(newLikedState);
     setLikesCount(updatedLikesCount);
-  
+
     try {
       const response = await useAxios.post(`/post/${post.id}/like`);
-      
+
       if (response.status === 201) {
         // Ensure likesCount updates based on API response
         setLikesCount(response.data.total_likes);
@@ -81,7 +81,7 @@ export default function PostCard({ post }) {
       }
     } catch (error) {
       console.error("Error liking the post:", error);
-      
+
       // Rollback UI if API fails
       setIsLiked(!newLikedState);
       setLikesCount(likesCount);
@@ -126,11 +126,13 @@ export default function PostCard({ post }) {
 
           <div className="my-3">
             <div className="border border-gray-800"></div>
-            <ActionDataCount post={post}   likesCount={likesCount} />
+            <ActionDataCount post={post} likesCount={likesCount} />
             <div className="px-4 py-1 flex justify-between items-center">
               <button
-              onClick={handleLikePost}
-                className={`cursor-pointer flex items-center text-sm  font-semibold  hover:text-blue-600  rounded-md p-0 ${isLiked ? "text-blue-600 " : ""}`}
+                onClick={handleLikePost}
+                className={`cursor-pointer flex items-center text-sm  font-semibold  hover:text-blue-600  rounded-md p-0 ${
+                  isLiked ? "text-blue-600 " : ""
+                }`}
               >
                 <svg
                   stroke="currentColor"
@@ -195,7 +197,7 @@ export default function PostCard({ post }) {
               />
             </Link>
             {/* <!--comment Post started--> */}
-            <CreateComment  postId={post.id}/>
+            <CreateComment postId={post.id} />
           </div>
         </div>
         {/* <!--posted Comment started here--> */}
@@ -204,6 +206,9 @@ export default function PostCard({ post }) {
         </div>
       </div>
       {/* Modals for Editing */}
+      {showTextArea && (
+        <EditPost post={editingPost} onClose={() => setShowTextArea(false)} />
+      )}
 
       {showImagePostModal && (
         <UploadModal
