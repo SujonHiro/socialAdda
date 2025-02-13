@@ -28,8 +28,6 @@ function RegistrationForm() {
       sendOtp(formData.email);
       localStorage.setItem("email", formData.email);
 
-      //toast.info("OTP has been sent to your email");
-
       navigate("/otp", { state: { email: formData.email } });
     } catch (error) {
       console.error(
@@ -40,8 +38,6 @@ function RegistrationForm() {
       setIsLoading(false);
       reset();
     }
-
-    /*  navigate("/otp"); */
   }
 
   return (

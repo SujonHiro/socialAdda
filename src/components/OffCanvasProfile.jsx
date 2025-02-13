@@ -5,7 +5,6 @@ export default function OffCanvasProfile() {
   const toggleOffcanvas = () => setIsOpen(!isOpen);
   return (
     <>
-      {/* Button to Open Offcanvas */}
       <button
         onClick={toggleOffcanvas}
         className="md:hidden text-gray-300 mx-4  font-medium"
@@ -28,13 +27,11 @@ export default function OffCanvasProfile() {
         </div>
       </button>
 
-      {/* Offcanvas */}
       <div
         className={`fixed top-0 left-0 h-full w-64 bg-[#202227] shadow-lg z-50 transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* Header */}
         <div className="p-4 flex justify-between items-center ">
           <div></div>
           <button
@@ -45,7 +42,6 @@ export default function OffCanvasProfile() {
           </button>
         </div>
 
-        {/* Content */}
         <div className="p-2">
           <LeftSideComponents />
         </div>

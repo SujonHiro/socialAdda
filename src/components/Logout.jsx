@@ -6,7 +6,8 @@ function Logout() {
   const { setAuth } = useAuth();
 
   function handleLogout() {
-    localStorage.removeItem("authToken");
+    sessionStorage.removeItem("authToken");
+    sessionStorage.removeItem("user");
     setAuth({});
     navigate("/login");
     toast.success("Logout Succesfully", {

@@ -192,9 +192,8 @@ export default function PostCard({ post }) {
           onCommentAdded={handleCommentAdded}
           setShowCommentModal={setShowCommentModal}
         />
-        {/* <!--posted Comment started here--> */}
       </div>
-      {/* Modals for Editing */}
+
       {showTextArea && (
         <EditPost post={editingPost} onClose={() => setShowTextArea(false)} />
       )}

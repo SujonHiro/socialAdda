@@ -1,8 +1,6 @@
 import PostCard from "./PostCard";
 
 export default function PostList({ posts }) {
-  
-
   return (
     <>
       {posts.length > 0 ? (
@@ -10,7 +8,6 @@ export default function PostList({ posts }) {
       ) : (
         <p>No Data available</p>
       )}
-      {/* <h1>Hello</h1> */}
     </>
   );
 }

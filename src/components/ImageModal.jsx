@@ -4,16 +4,15 @@ export default function ImageModal({ isOpen, onClose, image }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    if (!isOpen || !image) return; // Ensure effect runs only when modal is open
+    if (!isOpen || !image) return;
 
-    setProgress(0); // Reset progress when modal opens
+    setProgress(0);
 
     let interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(onClose, 300); // Add slight delay before closing
-          return 100;
+          setTimeout(onClose, 300);
         }
         return prev + 1;
       });
@@ -21,9 +20,9 @@ export default function ImageModal({ isOpen, onClose, image }) {
 
     return () => {
       clearInterval(interval);
-      setProgress(0); // Ensure reset when modal unmounts
+      setProgress(0);
     };
-  }, [isOpen, image, onClose]); // Depend on modal state and image
+  }, [isOpen, image, onClose]);
 
   if (!isOpen || !image) return null;
 
@@ -31,9 +30,7 @@ export default function ImageModal({ isOpen, onClose, image }) {
     <>
       <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
         <div className="relative   rounded-lg">
-          {/* Top Bar: Progress + Close Button */}
           <div className="absolute top-2 left-2 right-2 flex items-center justify-between">
-            {/* Progress Bar */}
             <div className="w-full ml-2 h-1 bg-gray-600 rounded-md overflow-hidden">
               <div
                 className="h-full bg-white transition-all duration-100 ease-linear"
@@ -41,7 +38,6 @@ export default function ImageModal({ isOpen, onClose, image }) {
               ></div>
             </div>
 
-            {/* Close Button */}
             <button
               className=" text-white cursor-pointer rounded-full p-2 text-xl "
               onClick={onClose}
@@ -60,8 +56,6 @@ export default function ImageModal({ isOpen, onClose, image }) {
               </svg>
             </button>
           </div>
-
-          {/* Image */}
           <img
             src={image}
             className="max-w-[90vw] max-h-[90vh] rounded-lg shadow-lg"

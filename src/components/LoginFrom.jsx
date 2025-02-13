@@ -21,7 +21,6 @@ export default function LoginForm() {
   async function submitForm(formData) {
     try {
       setIsLoading(true);
-      // Make the API request
       const response = await useAxios.post(
         `${import.meta.env.VITE_BASE_URL}/login`,
         formData
