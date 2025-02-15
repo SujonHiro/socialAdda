@@ -23,6 +23,15 @@ const storyReducer = (state, action) => {
         loading: false,
       };
     }
+    case actions.story.STORY_CREATED: {
+      return {
+        ...state,
+        stories: action.data?.stories
+          ? [...state.stories, ...action.data.stories]
+          : state.stories,
+        loading: false,
+      };
+    }
     case actions.story.STORY_FETCHED_ERROR: {
       return {
         ...state,
