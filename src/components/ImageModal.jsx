@@ -1,9 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-export default function ImageModal({ isOpen, onClose, image }) {
-  const [progress, setProgress] = useState(0);
+export default function ImageModal({
+  stories,
+  currentIndex,
+  setCurrentIndex,
+  onClose,
+}) {
+  //const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev < stories.length - 1 ? prev + 1 : 0));
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [setCurrentIndex, stories.length]);
+
+  /*  useEffect(() => {
     if (!isOpen || !image) return;
 
     setProgress(0);
@@ -22,47 +34,77 @@ export default function ImageModal({ isOpen, onClose, image }) {
       clearInterval(interval);
       setProgress(0);
     };
-  }, [isOpen, image, onClose]);
+  }, [isOpen, image, onClose]); */
 
-  if (!isOpen || !image) return null;
+  //if (!isOpen || !image) return null;
 
   return (
-    <>
-      <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
-        <div className="relative   rounded-lg">
-          <div className="absolute top-2 left-2 right-2 flex items-center justify-between">
-            <div className="w-full ml-2 h-1 bg-gray-600 rounded-md overflow-hidden">
-              <div
-                className="h-full bg-white transition-all duration-100 ease-linear"
-                style={{ width: `${progress}%` }}
-              ></div>
-            </div>
-
-            <button
-              className=" text-white cursor-pointer rounded-full p-2 text-xl "
-              onClick={onClose}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6 text-white"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M6.225 4.811a1 1 0 011.414 0L12 9.172l4.361-4.361a1 1 0 011.414 1.414L13.414 10.5l4.361 4.361a1 1 0 01-1.414 1.414L12 11.828l-4.361 4.361a1 1 0 01-1.414-1.414l4.361-4.361L6.225 6.225a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+      <div className="absolute top-5 w-full px-4 flex gap-1">
+        {stories.map((_, index) => (
+          <div
+            key={index}
+            className="h-1 flex-1 bg-gray-500 rounded-full overflow-hidden"
+          >
+            {index === currentIndex && (
+              <div className="h-full bg-white animate-progress" />
+            )}
           </div>
-          <img
-            src={image}
-            className="max-w-[90vw] max-h-[90vh] rounded-lg shadow-lg"
-            alt="Selected Story"
-          />
-        </div>
+        ))}
       </div>
-    </>
+
+      <img
+        src={stories[currentIndex].image}
+        alt="story"
+        className="max-h-[90vh] max-w-full object-contain"
+      />
+
+      <button
+        className="absolute top-1/2 -translate-y-1/2 left-5 bg-white/30 rounded-full p-2"
+        onClick={() =>
+          setCurrentIndex((prev) => (prev > 0 ? prev - 1 : stories.length - 1))
+        }
+      >
+        <svg
+          className="w-6 h-6 text-white"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+
+      <button
+        className="absolute top-1/2 -translate-y-1/2 right-5 bg-white/30 rounded-full p-2"
+        onClick={() => setCurrentIndex((prev) => (prev + 1) % stories.length)}
+      >
+        <svg
+          className="w-6 h-6 text-white"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </button>
+
+      <button
+        className="absolute top-5 right-5 text-white text-3xl"
+        onClick={onClose}
+      >
+        &times;
+      </button>
+    </div>
   );
 }

@@ -1,8 +1,8 @@
 import { actions } from "../action";
 
 const initialState = {
-  stories: [],
-  loading: false,
+  stories: {},
+  isLoading: false,
   error: null,
 };
 
@@ -17,25 +17,26 @@ const storyReducer = (state, action) => {
     case actions.story.STORY_FETCHED: {
       return {
         ...state,
-        stories: action.data?.stories
-          ? Object.values(action.data.stories).flat()
-          : [],
+        stories: action.payload,
         loading: false,
       };
     }
     case actions.story.STORY_CREATED: {
       return {
         ...state,
-        stories: action.data?.stories
-          ? [...state.stories, ...action.data.stories]
-          : state.stories,
-        loading: false,
+        stories: {
+          ...state.stories,
+          [action.payload.user_id]: [
+            action.payload,
+            ...(state.stories[action.payload.user_id] || []),
+          ],
+        },
       };
     }
     case actions.story.STORY_FETCHED_ERROR: {
       return {
         ...state,
-        error: action.error,
+        error: action.payload,
         loading: false,
       };
     }
