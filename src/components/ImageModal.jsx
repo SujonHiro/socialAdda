@@ -29,7 +29,7 @@ export default function ImageModal({
   }, [currentIndex, setCurrentIndex, stories.length]);
 
   return (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
       <div className="absolute top-5 w-full px-4 flex gap-1">
         {stories.map((_, index) => (
           <div
@@ -54,23 +54,53 @@ export default function ImageModal({
       />
 
       <button
-        className="absolute top-1/2 -translate-y-1/2 left-5 bg-white/30 rounded-full p-2"
+        className="absolute top-1/2 -translate-y-1/2 left-5 bg-white/10  rounded-full p-2"
         onClick={() => {
           setCurrentIndex((prev) => (prev > 0 ? prev - 1 : stories.length - 1));
         }}
       >
-        {/* Previous icon */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="lucide lucide-arrow-left"
+        >
+          <path d="m12 19-7-7 7-7" />
+          <path d="M19 12H5" />
+        </svg>
       </button>
 
       <button
-        className="absolute top-1/2 -translate-y-1/2 right-5 bg-white/30 rounded-full p-2"
+        className="absolute top-1/2 -translate-y-1/2 right-5 bg-white/10 rounded-full p-2"
         onClick={() => {
           setCurrentIndex((prev) => (prev + 1) % stories.length);
         }}
-      ></button>
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="lucide lucide-arrow-right"
+        >
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </button>
 
       <button
-        className="absolute top-5 right-5 text-white text-3xl"
+        className="absolute top-5 right-5  text-white text-3xl"
         onClick={onClose}
       >
         &times;
