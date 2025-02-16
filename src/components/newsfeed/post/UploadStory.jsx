@@ -6,7 +6,6 @@ import useStory from "../../../hook/useStory";
 
 function UploadStory() {
   const fileUploadRef = useRef();
-
   const { dispatch } = useStory();
 
   function handleStory(e) {
@@ -22,20 +21,18 @@ function UploadStory() {
       toast.error("File size must be less than 2MB");
       return;
     }
-
     // Prepare file for upload
-    const formData = new FormData();
-    formData.append("image", file);
-    console.log(formData);
     dispatch({ type: actions.story.STORY_FETCHING });
-
     try {
+      const formData = new FormData();
+      formData.append("image", file);
       const response = await useAxios.post("/story/upload", formData);
+      console.log("response", response.data.story);
 
       if (response.status === 201) {
         dispatch({
           type: actions.story.STORY_CREATED,
-          data: response.data,
+          payload: response.data.story,
         });
         toast.success("Story Upload Successfully");
       }

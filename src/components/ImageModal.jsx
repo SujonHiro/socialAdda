@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function ImageModal({
   stories,
@@ -6,37 +6,27 @@ export default function ImageModal({
   setCurrentIndex,
   onClose,
 }) {
-  //const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    let interval;
+    const timer = setTimeout(() => {
       setCurrentIndex((prev) => (prev < stories.length - 1 ? prev + 1 : 0));
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [setCurrentIndex, stories.length]);
+    }, 3000);
 
-  /*  useEffect(() => {
-    if (!isOpen || !image) return;
-
-    setProgress(0);
-
-    let interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setTimeout(onClose, 300);
-        }
-        return prev + 1;
-      });
-    }, 50);
+    const startTime = Date.now();
+    interval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const newProgress = (elapsed / 3000) * 100;
+      setProgress(Math.min(newProgress, 100));
+    }, 16);
 
     return () => {
+      clearTimeout(timer);
       clearInterval(interval);
       setProgress(0);
     };
-  }, [isOpen, image, onClose]); */
-
-  //if (!isOpen || !image) return null;
+  }, [currentIndex, setCurrentIndex, stories.length]);
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
@@ -47,8 +37,12 @@ export default function ImageModal({
             className="h-1 flex-1 bg-gray-500 rounded-full overflow-hidden"
           >
             {index === currentIndex && (
-              <div className="h-full bg-white animate-progress" />
+              <div
+                className="h-full bg-white transition-all duration-100 ease-linear"
+                style={{ width: `${progress}%` }}
+              />
             )}
+            {index < currentIndex && <div className="h-full bg-white w-full" />}
           </div>
         ))}
       </div>
@@ -61,43 +55,19 @@ export default function ImageModal({
 
       <button
         className="absolute top-1/2 -translate-y-1/2 left-5 bg-white/30 rounded-full p-2"
-        onClick={() =>
-          setCurrentIndex((prev) => (prev > 0 ? prev - 1 : stories.length - 1))
-        }
+        onClick={() => {
+          setCurrentIndex((prev) => (prev > 0 ? prev - 1 : stories.length - 1));
+        }}
       >
-        <svg
-          className="w-6 h-6 text-white"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
+        {/* Previous icon */}
       </button>
 
       <button
         className="absolute top-1/2 -translate-y-1/2 right-5 bg-white/30 rounded-full p-2"
-        onClick={() => setCurrentIndex((prev) => (prev + 1) % stories.length)}
-      >
-        <svg
-          className="w-6 h-6 text-white"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
-      </button>
+        onClick={() => {
+          setCurrentIndex((prev) => (prev + 1) % stories.length);
+        }}
+      ></button>
 
       <button
         className="absolute top-5 right-5 text-white text-3xl"

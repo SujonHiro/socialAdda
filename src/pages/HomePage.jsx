@@ -33,7 +33,7 @@ export default function HomePage() {
       }
     };
     fetchPost();
-  }, []);
+  }, [dispatch]);
   state.error && <p>Something wrong</p>;
 
   return (

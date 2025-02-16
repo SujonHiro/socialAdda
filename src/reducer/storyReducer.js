@@ -26,11 +26,9 @@ const storyReducer = (state, action) => {
         ...state,
         stories: {
           ...state.stories,
-          [action.payload.user_id]: [
-            action.payload,
-            ...(state.stories[action.payload.user_id] || []),
-          ],
+          ...action.payload,
         },
+        isLoading: false,
       };
     }
     case actions.story.STORY_FETCHED_ERROR: {

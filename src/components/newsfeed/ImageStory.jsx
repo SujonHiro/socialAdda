@@ -16,7 +16,7 @@ function ImageStory() {
       dispatch({ type: actions.story.STORY_FETCHING });
       try {
         const response = await useAxios.get("/stories");
-        console.log("response", response.data.stories);
+        //console.log("response", response.data.stories);
         if (response.status === 200) {
           dispatch({
             type: actions.story.STORY_FETCHED,

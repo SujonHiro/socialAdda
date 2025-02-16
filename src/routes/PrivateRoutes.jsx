@@ -14,9 +14,9 @@ function PrivateRoutes() {
             <CommentProvider>
               <Header />
               <StoryProvider>
-                <div className="md:px-4 md:container">
-                  <div className="text-[#B9BBBE] py-5">
-                    <div className="md:flex sm:gap-4 md:justify-between md:items-start md:gap-5">
+                <div className="@container">
+                  <div className="text-[#B9BBBE] py-5 @md:px-4">
+                    <div className="@md:flex @sm:gap-4 @md:justify-between md:items-start @md:gap-5">
                       <Outlet />
                     </div>
                   </div>
