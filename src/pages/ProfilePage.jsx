@@ -54,7 +54,7 @@ function ProfilePage() {
             </div> 
           </div>*/}
           <div className="md:flex md:gap-2 justify-between md:items-center  py-4 px-4">
-            <ProfileBio bio={state.user?.bio} />
+            <ProfileBio />
           </div>
         </div>
         {/* Create Post Section */}

@@ -22,6 +22,13 @@ const profileReducer = (state, action) => {
         loading: false,
       };
     }
+    case actions.profile.USER_PROFILE_EDITED: {
+      return {
+        ...state,
+        user: { ...state.user, ...action.payload },
+        loading: false,
+      };
+    }
     case actions.profile.USER_PROFILE_FETCHED_ERROR: {
       return {
         ...state,
