@@ -46,7 +46,7 @@ function ProfilePicture({ profilePicture }) {
       <form encType="multipart/form-data">
         <button
           onClick={handleImage}
-          className="absolute bottom-1 cursor-pointer right-32 md:bottom-2 md:right-84 lg:right-84 2xl:right-[45.5%] bg-gray-800 p-1 rounded-md text-white hover:text-blue-600"
+          className="absolute bottom-1 cursor-pointer right-34 md:bottom-2 md:right-84 lg:right-84 2xl:right-[45.5%] bg-gray-800 p-1 rounded-md text-white hover:text-blue-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

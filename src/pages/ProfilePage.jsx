@@ -53,7 +53,7 @@ function ProfilePage() {
               </button>
             </div> 
           </div>*/}
-          <div className="md:flex md:gap-2 justify-between md:items-center  py-4 px-4">
+          <div className="flex gap-2 justify-between md:items-center py-4 px-4">
             <ProfileBio />
           </div>
         </div>
