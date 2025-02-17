@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { actions } from "../action";
+import FullScreeenLoading from "../components/common/FullScreeenLoading";
 import CreatePost from "../components/newsfeed/post/CreatePost";
 import ProfileBio from "../components/profile/ProfileBio";
 import ProfileCover from "../components/profile/ProfileCover";
@@ -31,8 +32,7 @@ function ProfilePage() {
     fetchProfile();
   }, [dispatch]);
 
-  console.log(state.user?.name);
-
+  if (state?.loading) return <FullScreeenLoading />;
   return (
     <>
       <div className="md:w-2/3 mx-auto mb-3">

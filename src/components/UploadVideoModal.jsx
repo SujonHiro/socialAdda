@@ -3,14 +3,14 @@ import { useForm } from "react-hook-form";
 import ReactPlayer from "react-player";
 import { toast } from "react-toastify";
 import { actions } from "../action";
-import useAuth from "../hook/useAuth";
 import useAxios from "../hook/useAxios";
 import usePost from "../hook/usePost";
+import ProfileImage from "./common/ProfileImage";
 export default function UploadVideoModal({ onClose, post }) {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const { dispatch } = usePost();
   const { register, handleSubmit, reset, setValue } = useForm();
-  const { auth } = useAuth();
+
   const fileUploadRef = useRef();
 
   useEffect(() => {
@@ -138,11 +138,7 @@ export default function UploadVideoModal({ onClose, post }) {
 
           <div encType="multipart/form-data">
             <div className="flex items-start gap-2">
-              <img
-                src={auth.user.profile_picture_url}
-                className="size-10 rounded-full shrink-0"
-                alt={auth.user.name}
-              />
+              <ProfileImage />
               <textarea
                 {...register("content")}
                 placeholder="Enter caption..."

@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { actions } from "../action";
-import useAuth from "../hook/useAuth";
 import useAxios from "../hook/useAxios";
 import usePost from "../hook/usePost";
 import FullScreeenLoading from "./common/FullScreeenLoading";
+import ProfileImage from "./common/ProfileImage";
 export default function UploadModal({ onClose, post }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const { state, dispatch } = usePost();
-  const { auth } = useAuth();
+
   const { register, handleSubmit, reset, setValue } = useForm();
   const fileUploadRef = useRef();
 
@@ -109,11 +109,7 @@ export default function UploadModal({ onClose, post }) {
 
           <div encType="multipart/form-data">
             <div className="flex items-start gap-2">
-              <img
-                src={auth.user.profile_picture_url}
-                className="size-10 rounded-full shrink-0"
-                alt="User ICon"
-              />
+              <ProfileImage />
               <textarea
                 {...register("content")}
                 placeholder="Enter caption..."

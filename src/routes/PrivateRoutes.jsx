@@ -11,9 +11,9 @@ function PrivateRoutes() {
     <>
       {auth.token ? (
         <>
-          <PostProvider>
-            <CommentProvider>
-              <ProfileProvider>
+          <ProfileProvider>
+            <PostProvider>
+              <CommentProvider>
                 <Header />
                 <StoryProvider>
                   <div className="@container">
@@ -24,9 +24,9 @@ function PrivateRoutes() {
                     </div>
                   </div>
                 </StoryProvider>
-              </ProfileProvider>
-            </CommentProvider>
-          </PostProvider>
+              </CommentProvider>
+            </PostProvider>
+          </ProfileProvider>
         </>
       ) : (
         <Navigate to="/login" />
