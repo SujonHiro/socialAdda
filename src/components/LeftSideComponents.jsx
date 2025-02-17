@@ -1,14 +1,16 @@
 import { Link } from "react-router";
 import Connection from "../assets/icons/connection.svg";
 import Home from "../assets/icons/home.svg";
-import Cover from "../assets/images/cover.jpg";
 import useAuth from "../hook/useAuth";
+import useProfile from "../hook/useProfile";
 function LeftSideComponents() {
   const { auth } = useAuth();
+  const { state } = useProfile();
+  const user = state?.user ?? auth?.user;
   return (
     <>
       <div
-        style={{ backgroundImage: `url(${Cover})` }}
+        style={{ backgroundImage: `url(${user.cover_picture_url})` }}
         className="bg-cover bg-center bg-no-repeat h-[50px] rounded-md"
       ></div>
       <div className="p-2">
@@ -16,7 +18,7 @@ function LeftSideComponents() {
           <div className="avatar">
             <span role="button">
               <img
-                src={auth.user.profile_picture_url}
+                src={user.profile_picture_url}
                 width="64"
                 height="64"
                 alt="profile"
@@ -24,16 +26,9 @@ function LeftSideComponents() {
               />
             </span>
           </div>
-          <h1 className="text-xl text-white font-bold mt-2">
-            {auth.user.name}
-          </h1>
-          <small className="font-medium">
-            Web Developer at The Tech resolver
-          </small>
-          <p className="mt-3">
-            I &apos;d love to change the world, but they won’t give me the
-            source code.
-          </p>
+          <h1 className="text-xl text-white font-bold mt-2">{user.name}</h1>
+
+          <p className="mt-3">{user.bio}</p>
           <div className="my-4 flex flex-row justify-center gap-4 items-center self-stretch">
             <div>
               <h6 className="font-bold text-white">256</h6>

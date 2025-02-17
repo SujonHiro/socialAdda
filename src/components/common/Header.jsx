@@ -2,17 +2,21 @@ import { useRef, useState } from "react";
 import { Link } from "react-router";
 import Logo from "../../assets/img/logo.svg";
 import useAuth from "../../hook/useAuth";
+import useProfile from "../../hook/useProfile";
 import Logout from "../Logout";
 
 function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropDownRef = useRef();
   const { auth } = useAuth();
+  const { state } = useProfile();
+
+  const user = state?.user ?? auth.user;
 
   function handleClick(event) {
     if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
       setIsDropdownOpen(false);
-      document.removeEventListener("mousedown", handleClick); // Remove event listener after closing
+      document.removeEventListener("mousedown", handleClick);
     }
   }
 
@@ -87,13 +91,13 @@ function Header() {
                 <span className="sr-only">Open user menu</span>
                 <img
                   className="size-8 rounded-md"
-                  src={auth.user.profile_picture_url}
+                  src={user.profile_picture_url}
                   alt=""
                 />
               </button>
               {isDropdownOpen && (
                 <div
-                  className="absolute right-0 z-10 mt-2 w-48 origin-top-right bg-[#1E1F24] rounded-md bg- py-1 shadow-lg ring-1 ring-black/5 focus:outline-none"
+                  className="absolute right-0 z-10 mt-2 w-3xs origin-top-right bg-[#1E1F24] rounded-md bg- py-1 shadow-lg ring-1 ring-black/5 focus:outline-none"
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="user-menu-button"
@@ -108,14 +112,13 @@ function Header() {
                   >
                     <img
                       className="size-8 rounded-full"
-                      src={auth.user.profile_picture_url}
+                      src={user.profile_picture_url}
                       alt=""
                     />
                     <div className="flex flex-col text-gray-300">
                       <span className="ml-2 font-bold text-md">
-                        {auth.user.name}
+                        {user.name}
                       </span>
-                      <span className="ml-2 text-xs">Web Developer</span>
                     </div>
                   </Link>
                   <div className="px-2">

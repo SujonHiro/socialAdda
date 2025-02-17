@@ -4,5 +4,11 @@ const AuthContext = createContext();
 const PostContext = createContext();
 const CommentContext = createContext();
 const StoryContext = createContext();
-
-export { AuthContext, CommentContext, PostContext, StoryContext };
+const ProfileContext = createContext();
+export {
+  AuthContext,
+  CommentContext,
+  PostContext,
+  ProfileContext,
+  StoryContext,
+};
