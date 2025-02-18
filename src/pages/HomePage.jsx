@@ -21,10 +21,11 @@ export default function HomePage() {
     const fetchPost = async () => {
       try {
         const response = await useAxios.get(`/posts`);
+
         if (response.status === 200) {
           dispatch({
             type: actions.post.DATA_FETCHED,
-            data: response.data.data,
+            data: response.data.posts,
           });
         }
       } catch (error) {

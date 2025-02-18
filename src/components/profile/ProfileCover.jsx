@@ -36,13 +36,12 @@ function ProfileCover({ profileCover }) {
   }
   return (
     <div className="relative">
-      {/* Cover Image */}
+
       <div
         style={{ backgroundImage: `url(${profileCover})` }}
         className="bg-cover bg-center bg-no-repeat md:h-[180px] h-[100px] rounded-md"
       ></div>
 
-      {/* Button */}
       <form>
         <button
           onClick={handleImage}
