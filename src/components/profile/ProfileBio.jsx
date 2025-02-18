@@ -38,7 +38,7 @@ function ProfileBio() {
   return (
     <>
       {!isEdited ? (
-        <p className="text-left ">{bio}</p>
+        <p className="text-center ">{bio}</p>
       ) : (
         <textarea
           required
