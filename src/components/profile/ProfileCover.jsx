@@ -1,11 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { toast } from "react-toastify";
 import { actions } from "../../action";
 import useAxios from "../../hook/useAxios";
 import useProfile from "../../hook/useProfile";
 
 function ProfileCover({ profileCover }) {
-  const { state, dispatch } = useProfile();
+  const { dispatch } = useProfile();
   const fileUploaderRef = useRef();
 
   function handleImage(e) {
@@ -28,17 +28,10 @@ function ProfileCover({ profileCover }) {
         toast.success(response.data.message);
       }
     } catch (error) {
-      dispatch({
-        type: actions.profile.USER_PROFILE_FETCHED_ERROR,
-        payload: error.response.data.message,
-      });
+      toast.error(error.response.data.message);
     }
   }
-  useEffect(() => {
-    if (state.error) {
-      toast.error(state.error);
-    }
-  }, [state.error]);
+
   return (
     <div className="relative">
       <div
