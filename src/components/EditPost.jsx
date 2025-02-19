@@ -36,7 +36,7 @@ function EditPost({ onClose, post }) {
           type: actions.post.DATA_EDITED,
           data: response.data.data,
         });
-        toast.success("your Post updated successfully");
+        toast.success(response.data.message);
       }
       reset;
       onClose();

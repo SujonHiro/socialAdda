@@ -52,7 +52,7 @@ function OtpForm() {
           otp: formData.otp,
         }
       );
-      console.log("API Response:", response.status);
+
       if (response.status === 200) {
         toast.success("OTP Verified Successfully");
 

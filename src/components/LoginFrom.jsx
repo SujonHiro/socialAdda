@@ -31,7 +31,7 @@ export default function LoginForm() {
       if (response.status === 200 && response.data.user.is_verified === 1) {
         setAuth({ user, token });
 
-        toast.success("Login successful");
+        toast.success(response.data.message);
         navigate("/");
       } else {
         await sendOtp(

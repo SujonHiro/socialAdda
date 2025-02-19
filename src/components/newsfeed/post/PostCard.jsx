@@ -42,7 +42,7 @@ export default function PostCard({ post }) {
       const response = await useAxios.delete(`/post/${post.id}`);
       if (response.status === 200) {
         dispatch({ type: actions.post.POST_DELETED, data: post.id });
-        toast.success("Post Deleted Successfully");
+        toast.success(response.data.message);
       }
     } catch (error) {
       console.log(error);

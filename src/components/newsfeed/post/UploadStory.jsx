@@ -21,7 +21,7 @@ function UploadStory() {
       toast.error("File size must be less than 2MB");
       return;
     }
-    // Prepare file for upload
+
     dispatch({ type: actions.story.STORY_FETCHING });
     try {
       const formData = new FormData();
@@ -34,12 +34,12 @@ function UploadStory() {
           type: actions.story.STORY_CREATED,
           payload: response.data.story,
         });
-        toast.success("Story Upload Successfully");
+        toast.success(response.data.message);
       }
     } catch (error) {
       dispatch({
         type: actions.story.STORY_FETCHED_ERROR,
-        error: error.message,
+        payload: error.message,
       });
       toast.error("Something went wrong");
     }

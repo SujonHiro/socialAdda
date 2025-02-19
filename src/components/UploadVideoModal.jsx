@@ -67,7 +67,7 @@ export default function UploadVideoModal({ onClose, post }) {
             type: actions.post.DATA_EDITED,
             data: response.data.data,
           });
-          toast.success(" Post updated successfully!");
+          toast.success(response.data.message);
         }
       } else {
         if (!file) {
@@ -83,7 +83,7 @@ export default function UploadVideoModal({ onClose, post }) {
             type: actions.post.DATA_CREATED,
             data: response.data.data,
           });
-          toast.success("Video uploaded successfully!");
+          toast.success(response.data.message);
 
           setSelectedVideo(null);
           reset();

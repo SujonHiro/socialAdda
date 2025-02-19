@@ -53,7 +53,7 @@ export default function UploadModal({ onClose, post }) {
             type: actions.post.DATA_EDITED,
             data: response.data.data,
           });
-          toast.success("Image updated successfully!");
+          toast.success(response.data.message);
         }
       } else {
         if (!file) {
@@ -66,7 +66,7 @@ export default function UploadModal({ onClose, post }) {
             type: actions.post.DATA_CREATED,
             data: response.data.data,
           });
-          toast.success("Image uploaded successfully!");
+          toast.success(response.data.message);
         }
       }
       setSelectedImage(null);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { actions } from "../../action";
 import useAxios from "../../hook/useAxios";
@@ -25,16 +25,21 @@ function ProfileBio() {
           type: actions.profile.USER_PROFILE_EDITED,
           payload: response.data.user,
         });
-        toast.success("Your Bio is Updated");
+        toast.success(response.data.message);
       }
       setIsEdited(false);
     } catch (error) {
       dispatch({
         type: actions.profile.USER_PROFILE_FETCHED_ERROR,
-        error: error.message,
+        payload: error.response.data.message,
       });
     }
   };
+  useEffect(() => {
+    if (state.error) {
+      toast.error(state.error);
+    }
+  }, [state.error]);
   return (
     <>
       {!isEdited ? (

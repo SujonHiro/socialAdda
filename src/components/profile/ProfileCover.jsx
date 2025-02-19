@@ -1,11 +1,11 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { actions } from "../../action";
 import useAxios from "../../hook/useAxios";
 import useProfile from "../../hook/useProfile";
 
 function ProfileCover({ profileCover }) {
-  const { dispatch } = useProfile();
+  const { state, dispatch } = useProfile();
   const fileUploaderRef = useRef();
 
   function handleImage(e) {
@@ -25,18 +25,22 @@ function ProfileCover({ profileCover }) {
           type: actions.profile.USER_PROFILE_EDITED,
           payload: response.data.user,
         });
-        toast.success("Cover updated successfully");
+        toast.success(response.data.message);
       }
     } catch (error) {
       dispatch({
         type: actions.profile.USER_PROFILE_FETCHED_ERROR,
-        error: error.message,
+        payload: error.response.data.message,
       });
     }
   }
+  useEffect(() => {
+    if (state.error) {
+      toast.error(state.error);
+    }
+  }, [state.error]);
   return (
     <div className="relative">
-
       <div
         style={{ backgroundImage: `url(${profileCover})` }}
         className="bg-cover bg-center bg-no-repeat md:h-[180px] h-[100px] rounded-md"

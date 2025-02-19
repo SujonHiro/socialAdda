@@ -13,7 +13,12 @@ function CreatePost() {
   const [isFileOpenModal, setIsFileOpenModal] = useState(false);
   const { state, dispatch } = usePost();
 
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
   async function onSubmitPost(formData) {
     dispatch({ type: actions.post.DATA_FETCHING });
@@ -23,10 +28,10 @@ function CreatePost() {
       if (response.status === 201) {
         dispatch({ type: actions.post.DATA_CREATED, data: response.data.data });
         reset();
-        toast.success("Post Created Successfully");
+        toast.success(response.data.message);
       }
     } catch (error) {
-      console.log(error);
+      console.log("error", error);
       dispatch({ type: actions.post.DATA_FETCH_ERROR });
     }
   }
@@ -39,7 +44,6 @@ function CreatePost() {
   };
 
   state.loading && <FullScreeenLoading />;
-  state.error && <p>error occured</p>;
 
   return (
     <>
@@ -57,6 +61,11 @@ function CreatePost() {
                 id="content"
                 name="content"
               />
+              {errors.content && (
+                <span className="text-red-500 text-sm">
+                  {errors.content.message}
+                </span>
+              )}
               <ul className="flex justify-between items-center mt-2">
                 <div className="flex gap-4">
                   <li>
