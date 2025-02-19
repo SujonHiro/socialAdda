@@ -5,10 +5,11 @@ import { toast } from "react-toastify";
 import { actions } from "../action";
 import useAxios from "../hook/useAxios";
 import usePost from "../hook/usePost";
+import FullScreeenLoading from "./common/FullScreeenLoading";
 import ProfileImage from "./common/ProfileImage";
 export default function UploadVideoModal({ onClose, post }) {
   const [selectedVideo, setSelectedVideo] = useState(null);
-  const { dispatch } = usePost();
+  const { state, dispatch } = usePost();
   const { register, handleSubmit, reset, setValue } = useForm();
 
   const fileUploadRef = useRef();
@@ -35,7 +36,7 @@ export default function UploadVideoModal({ onClose, post }) {
   const handlePost = async (data) => {
     const file = fileUploadRef.current.files[0];
     const formData = new FormData();
-    const maxSize = 20 * 1024 * 1024;
+    /* const maxSize = 20 * 1024 * 1024;
     if (file) {
       if (file.size > maxSize) {
         toast.error("File size exceeds the 20MB limit. Your file is 20MB");
@@ -48,16 +49,16 @@ export default function UploadVideoModal({ onClose, post }) {
         return;
       }
       formData.append("content_file", file);
-    }
-
+    } */
+    formData.append("content_file", file);
     formData.append("content", data.content);
     formData.append("content_type", "video");
 
     dispatch({ type: actions.post.DATA_FETCHING });
 
-    onClose();
     toast.info("Video Processing We will Notify you when Done");
     try {
+      onClose();
       if (post) {
         const response = await useAxios.post(`/post/${post.id}`, formData);
 
@@ -83,33 +84,21 @@ export default function UploadVideoModal({ onClose, post }) {
             data: response.data.data,
           });
           toast.success("Video uploaded successfully!");
+
           setSelectedVideo(null);
           reset();
-        } else if (response.status === 422) {
-          const errors = response.data.errors.content_file;
-          if (errors && errors.length > 0) {
-            dispatch({
-              type: actions.post.DATA_FETCH_ERROR,
-              error: errors.join(" "),
-            });
-            toast.error("Validation failed: " + errors.join(" "));
-            console.log("API Error 422:", errors);
-          } else {
-            toast.error("Validation failed: Please check the uploaded video.");
-            console.log("API Error 422: No content_file errors provided.");
-          }
-        } else {
-          dispatch({ type: actions.post.DATA_FETCH_ERROR });
-          toast.error("Upload failed, please try again.");
-          console.log("API Error:", response.errors || "Unknown API error");
         }
       }
     } catch (error) {
-      console.error("Error caught:", error.response || error.message || error);
-      toast.error("An error occurred while uploading.");
+      if (error.response && error.response.status === 422) {
+        error.response.data.error.content_file.map((error) =>
+          toast.error(error)
+        );
+      }
     }
   };
 
+  if (state.loading) return <FullScreeenLoading />;
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">

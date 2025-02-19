@@ -67,17 +67,16 @@ export default function UploadModal({ onClose, post }) {
             data: response.data.data,
           });
           toast.success("Image uploaded successfully!");
-        } else {
-          dispatch({ type: actions.post.DATA_FETCH_ERROR });
-          toast.error("Upload failed, please try again.");
         }
       }
       setSelectedImage(null);
       reset();
     } catch (error) {
-      console.error(error);
-      dispatch({ type: actions.post.DATA_FETCH_ERROR });
-      toast.error("An error occurred while uploading.");
+      if (error.response && error.response.status === 422) {
+        error.response.data.error.content_file.map((error) =>
+          toast.error(error)
+        );
+      }
     }
   };
 

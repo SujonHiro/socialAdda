@@ -49,7 +49,7 @@ function ProfilePage() {
             <p>{state.user?.email}</p>
           </div>
 
-          <div className="flex gap-2 justify-between md:items-center py-4 px-4">
+          <div className="flex gap-2  justify-center md:items-center py-4 px-4">
             <ProfileBio />
           </div>
         </div>
