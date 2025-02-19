@@ -56,7 +56,7 @@ export default function PostCard({ post }) {
       setShowTextArea(true);
     } else if (post.content_type === "image") {
       setShowImagePostModal(true);
-    } else {
+    } else if (post.content_type === "video") {
       setShowVideoPostModal(true);
     }
   };

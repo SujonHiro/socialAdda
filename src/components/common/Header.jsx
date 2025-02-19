@@ -31,8 +31,8 @@ function Header() {
 
   return (
     <>
-      <header className="@container px-4 sticky top-0 z-50 border-b border-[#141519] bg-[#000000] py-4">
-        <nav className="flex items-center justify-between gap-4">
+      <header className=" px-4 sticky top-0 z-50 border-b border-[#141519] bg-[#000000] py-4">
+        <nav className="container mx-auto flex items-center justify-between gap-4">
           <Link to="/">
             <img src={Logo} alt="" />
           </Link>

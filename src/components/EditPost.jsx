@@ -15,6 +15,7 @@ function EditPost({ onClose, post }) {
     setValue,
   } = useForm();
   const { dispatch } = usePost();
+  console.log(post);
 
   useEffect(() => {
     if (post) {
@@ -47,7 +48,7 @@ function EditPost({ onClose, post }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
       <div className="relative bg-[#141519] rounded-lg p-6 w-md">
-        <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <div className="flex items-start gap-2">
               <ProfileImage />
