@@ -2,6 +2,7 @@ import { actions } from "../action";
 
 const initialState = {
   user: null,
+  posts: [],
   loading: false,
   error: null,
 };
@@ -18,7 +19,8 @@ const profileReducer = (state, action) => {
     case actions.profile.USER_PROFILE_FETCHED: {
       return {
         ...state,
-        user: action.payload,
+        user: action.data.user,
+        posts: action.data.posts,
         loading: false,
       };
     }

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
 import { actions } from "../../../action/index";
@@ -5,15 +6,13 @@ import useAuth from "../../../hook/useAuth";
 import useAxios from "../../../hook/useAxios";
 import usePost from "../../../hook/usePost";
 import { formatDate } from "../../../utils/formatime";
-import ActionDataCount from "./ActionDataCount";
-import PostAction from "./PostAction";
-import PostBody from "./PostBody";
-
-import { useState } from "react";
 import EditPost from "../../EditPost";
 import UploadModal from "../../UploadModal";
 import UploadVideoModal from "../../UploadVideoModal";
+import ActionDataCount from "./ActionDataCount";
 import CommentSection from "./CommentSection";
+import PostAction from "./PostAction";
+import PostBody from "./PostBody";
 import PostSharedAction from "./PostSharedAction";
 
 export default function PostCard({ post }) {
@@ -28,7 +27,9 @@ export default function PostCard({ post }) {
   const [isLiked, setIsLiked] = useState(
     post.likes?.some((like) => like.user_id === auth.user.id)
   );
-  const [likesCount, setLikesCount] = useState(post.likes_count || 0);
+  const [likesCount, setLikesCount] = useState(
+    post.is_shared !== true ? post.likes_count || 0 : post.likes_count
+  );
   const [countComments, setCountCommnets] = useState(post.comments_count || 0);
 
   const handleDeletePost = async () => {
@@ -49,7 +50,6 @@ export default function PostCard({ post }) {
       dispatch({ type: actions.post.DATA_FETCH_ERROR });
     }
   };
-
   const handleEditPost = (post) => {
     setEditingPost(post);
     if (post.content_type === null) {
@@ -87,11 +87,12 @@ export default function PostCard({ post }) {
   const handleCommentAdded = () => {
     setCountCommnets((prev) => prev + 1);
   };
+
   return (
     <>
       <div className={`bg-[#141519] ${post.is_shared ? "p-4" : ""} mb-4`}>
         {post.is_shared && (
-          <div className=" flex items-center justify-between mb-2 text-sm text-gray-400">
+          <div className=" mb-2 text-sm text-gray-400">
             <div className="flex items-center">
               <img
                 src={post.user.profile_picture_url}
@@ -101,15 +102,9 @@ export default function PostCard({ post }) {
               <p>
                 <span className="font-semibold">{post.user.name}</span> shared{" "}
                 <span className="font-semibold">{post.post_user.name}</span>
-                &apos;s post
+                &apos;s post {formatDate(post.created_at)}
               </p>
             </div>
-            {isMe && (
-              <PostAction
-                onEdit={() => handleEditPost(post)}
-                onDelete={handleDeletePost}
-              />
-            )}
           </div>
         )}
         <div className="mb-3 bg-[#141519] rounded-md">
@@ -140,7 +135,9 @@ export default function PostCard({ post }) {
                   <span className="text-sm">
                     {post.is_shared ? post.post_user.name : post.user.name}
                   </span>
-                  <p className="text-xs">{formatDate(post.created_at)}</p>
+                  <p className="text-xs">
+                    {!post.is_shared && formatDate(post.created_at)}
+                  </p>
                 </div>
               </div>
               {!post.is_shared && isMe && (

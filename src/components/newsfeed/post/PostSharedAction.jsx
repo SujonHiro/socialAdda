@@ -1,12 +1,32 @@
-function PostSharedAction() {
-  const handlePostShared = () => {
-    console.log("click");
+import { useState } from "react";
+import { toast } from "react-toastify";
+import useAxios from "../../../hook/useAxios";
+import FullScreeenLoading from "../../common/FullScreeenLoading";
+
+function PostSharedAction({ postId }) {
+  const [loading, setLoading] = useState(false);
+
+  const handlePostShared = async () => {
+    try {
+      setLoading(true);
+      const response = await useAxios.post(`post/${postId}/share`);
+
+      if (response.status === 201) {
+        toast.success("Post Shared Successfully");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to share the post.");
+    } finally {
+      setLoading(false);
+    }
   };
+  if (loading) return <FullScreeenLoading />;
   return (
     <>
       <button
         onClick={handlePostShared}
-        className="flex items-center text-white font-semibold text-md hover:text-blue-600 px-4 rounded-md py-1"
+        className="flex items-center cursor-pointer text-white font-semibold text-md hover:text-blue-600 px-4 rounded-md py-1"
       >
         <svg
           stroke="currentColor"

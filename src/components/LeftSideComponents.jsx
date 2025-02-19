@@ -16,7 +16,7 @@ function LeftSideComponents() {
       <div className="p-2">
         <div className="text-center">
           <div className="avatar">
-            <span role="button">
+            <span>
               <img
                 src={user.profile_picture_url}
                 width="64"
@@ -26,7 +26,7 @@ function LeftSideComponents() {
               />
             </span>
           </div>
-          <h1 className="text-xl text-white font-bold mt-2">{user.name}</h1>
+          <h1 className="text-xl text-white font-bold mt-5">{user.name}</h1>
 
           <p className="mt-3">{user.bio}</p>
           <div className="my-4 flex flex-row justify-center gap-4 items-center self-stretch">
