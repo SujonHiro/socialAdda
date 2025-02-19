@@ -29,7 +29,7 @@ function PostBody({ content, poster, postType }) {
       )}
       {postType === "video" && (
         <>
-          <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center self-center">
             <div className="relative w-full max-w-[800px] aspect-video rounded-b-md overflow-hidden">
               <ReactPlayer
                 url={poster}
@@ -44,7 +44,7 @@ function PostBody({ content, poster, postType }) {
       )}
       {postType === "image" && (
         <>
-          <img src={poster} className="rounded-md my-2" alt="poster" />
+          <img src={poster} className="mx-auto rounded-md my-2" alt="poster" />
         </>
       )}
     </div>
