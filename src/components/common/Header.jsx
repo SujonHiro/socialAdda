@@ -50,7 +50,7 @@ function Header() {
                 </li>
                 <li className="bg-[#202227] p-2 rounded-md">
                   <Link
-                    to="./message.html"
+                    to="/chat"
                     className="text-gray-400 hover:text-[#FFFFFF]"
                   >
                     <svg
