@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import useOutsideClick from "../../../hook/useOutsideClick";
 
-
-function PostAction({ onDelete,onEdit }) {
+function PostAction({ onDelete, onEdit }) {
   const [showDropDown, setShowDropDown] = useState(false);
+  const postDropDown = useRef(null);
 
+  useOutsideClick(postDropDown, () => setShowDropDown(false));
   return (
-    <div className="p-4">
+    <div className="p-4" ref={postDropDown}>
       <button
         className="relative cursor-pointer"
         onClick={() => setShowDropDown(!showDropDown)}
@@ -47,7 +49,6 @@ function PostAction({ onDelete,onEdit }) {
             </li>
             <li>
               <button
-               
                 onClick={onDelete}
                 className="flex justify-center items-center text-sm mb-3 hover:text-blue-600 cursor-pointer"
               >

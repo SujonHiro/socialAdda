@@ -2,32 +2,19 @@ import { useRef, useState } from "react";
 import { Link } from "react-router";
 import Logo from "../../assets/img/logo.svg";
 import useAuth from "../../hook/useAuth";
+import useOutsideClick from "../../hook/useOutsideClick";
 import useProfile from "../../hook/useProfile";
 import Logout from "../Logout";
 
 function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropDownRef = useRef();
+  const dropDownRef = useRef(null);
   const { auth } = useAuth();
   const { state } = useProfile();
 
   const user = state?.user ?? auth.user;
 
-  function handleClick(event) {
-    if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
-      setIsDropdownOpen(false);
-      document.removeEventListener("mousedown", handleClick);
-    }
-  }
-
-  function toggleDropdown() {
-    if (!isDropdownOpen) {
-      document.addEventListener("mousedown", handleClick);
-    } else {
-      document.removeEventListener("mousedown", handleClick);
-    }
-    setIsDropdownOpen(!isDropdownOpen);
-  }
+  useOutsideClick(dropDownRef, () => setIsDropdownOpen(false));
 
   return (
     <>
@@ -85,7 +72,7 @@ function Header() {
               <button
                 type="button"
                 className="relative cursor-pointer rounded-md flex items-center bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                onClick={toggleDropdown}
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
                 <span className="absolute"></span>
                 <span className="sr-only">Open user menu</span>
@@ -103,8 +90,7 @@ function Header() {
                   aria-labelledby="user-menu-button"
                   tabIndex="-1"
                 >
-                  <Link
-                    to="/me"
+                  <p
                     className="px-4 py-2 text-sm text-gray-300 flex items-center"
                     role="menuitem"
                     tabIndex="-1"
@@ -113,14 +99,14 @@ function Header() {
                     <img
                       className="size-8 rounded-full"
                       src={user.profile_picture_url}
-                      alt=""
+                      alt="profile"
                     />
                     <div className="flex flex-col text-gray-300">
                       <span className="ml-2 font-bold text-md">
                         {user.name}
                       </span>
                     </div>
-                  </Link>
+                  </p>
                   <div className="px-2">
                     <Link
                       to="/me"
