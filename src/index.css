@@ -36,6 +36,12 @@
 }
 
 @theme {
+  --container-sm: 24rem;
+  --container-md: 28rem;
+  --container-lg: 32rem;
+  --container-xl: 64rem;
+  --container-2xl: 80rem;
+
   --animate-fade-in-scale: slide 2s ease-out;
   @keyframes slide {
     0% {

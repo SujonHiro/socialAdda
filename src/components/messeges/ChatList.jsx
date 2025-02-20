@@ -2,10 +2,10 @@ import User from "../../assets/images/avatars/user.jpg";
 function ChatList() {
   return (
     <>
-      <div className="border-t-2 border-[#1f1f1f] md:h-[320px] xl:h-[350px] h-[450px] overflow-auto">
-        <ul className="flex flex-col gap-4 scroll-smooth scrollbar-track-black my-2">
+      <div className="border-t-2 border-[#1f1f1f] @2xl:h-[480px] @xl:h-[320px] h-[450px] overflow-auto">
+        <ul className="flex flex-col gap-4 scroll-smooth scrollbar-track-black  my-2">
           <li className="w-full flex  items-start gap-2">
-            <div className="  flex-shrink-0 overflow-hidden">
+            <div className="  flex-shrink-0 ">
               <img src={User} className="size-8 rounded-full" alt="" />
             </div>
             <div className="bg-[#202227] px-2 py-4 rounded-md">

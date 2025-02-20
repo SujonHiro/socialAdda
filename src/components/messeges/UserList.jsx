@@ -2,7 +2,7 @@ import Avater1 from "../../assets/images/avatars/1.jpg";
 function UserList() {
   return (
     <>
-      <ul className="flex flex-col gap-4 scroll-smooth scrollbar-track-black">
+      <ul className="flex flex-col gap-4 scroll-smooth scrollbar-track-black ">
         <li className="flex items-center gap-4">
           <button className="w-full flex items-center gap-2 hover:bg-blue-700 hover:bg-opacity-20 p-2 rounded-md">
             <div className="w-12 h-12 rounded-full overflow-hidden">
