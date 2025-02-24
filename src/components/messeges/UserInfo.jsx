@@ -1,13 +1,20 @@
-import User from "../../assets/images/avatars/user.jpg";
-function UserInfo() {
+function UserInfo({ user }) {
+  if (!user) {
+    return <p className="text-gray-500 text-sm">User data not available</p>;
+  }
+
   return (
     <>
       <div className="flex items-center gap-2">
         <div className=" overflow-hidden">
-          <img className="size-8 rounded-full" src={User} alt="" />
+          <img
+            className="size-8 rounded-full"
+            src={user.profile_picture_url}
+            alt=""
+          />
         </div>
         <div>
-          <h3 className="text-md font-bold">Frances Guerrero</h3>
+          <h3 className="text-md font-bold">{user.name}</h3>
           <p className="inline-flex items-center text-xs font-medium text-green-500">
             <svg
               stroke="currentColor"

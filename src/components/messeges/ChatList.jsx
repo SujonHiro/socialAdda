@@ -1,75 +1,59 @@
-import User from "../../assets/images/avatars/user.jpg";
-function ChatList() {
+import { useEffect, useRef } from "react";
+
+function ChatList({ messages, selectedUser }) {
+  const scrollRef = useRef(null);
+  const lastMessageRef = useRef(null);
+
+  // Smooth scroll to bottom whenever messages update
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }
+  }, [messages]);
+
   return (
-    <>
-      <div className="border-t-2 border-[#1f1f1f] @2xl:h-[480px] @xl:h-[320px] h-[450px] overflow-auto">
-        <ul className="flex flex-col gap-4 scroll-smooth scrollbar-track-black  my-2">
-          <li className="w-full flex  items-start gap-2">
-            <div className="  flex-shrink-0 ">
-              <img src={User} className="size-8 rounded-full" alt="" />
-            </div>
-            <div className="bg-[#202227] px-2 py-4 rounded-md">
-              <p className="text-sm font-medium text-gray-300">
-                Traveling alteration impression 🤐 six all uncommonly Chamber
-                hearing inhabit joy highest private .
-              </p>
-            </div>
-          </li>
-          <li className="flex items-center md:mr-4 md:ml-40 justify-end gap-2">
-            <div className="bg-blue-600 px-2 py-4 rounded-md">
-              <p className="text-sm text-right font-medium text-gray-100">
-                Prototype হলো JavaScript-এর একটি গুরুত্বপূর্ণ বৈশিষ্ট্য, যা
-                object-oriented programming (OOP) এর ভিত্তি তৈরি করে।
-                JavaScript-এ প্রতিটি object-এর একটি prototype থাকে, যা অন্য একটি
-                object-এর property এবং method শেয়ার করতে সাহায্য করে।
-              </p>
-            </div>
-          </li>
-          <li className="w-full flex  items-start gap-2">
-            <div className="  flex-shrink-0 overflow-hidden">
-              <img src={User} className="size-8 rounded-full" alt="" />
-            </div>
-            <div className="bg-[#202227] px-2 py-4 rounded-md">
-              <p className="text-sm font-medium text-gray-300">
-                Traveling alteration impression 🤐 six all uncommonly Chamber
-                hearing inhabit joy highest private .
-              </p>
-            </div>
-          </li>
-          <li className="flex items-center md:mr-4 md:ml-40 justify-end gap-2">
-            <div className="bg-blue-600 px-2 py-4 rounded-md">
-              <p className="text-sm text-right font-medium text-gray-100">
-                Prototype হলো JavaScript-এর একটি গুরুত্বপূর্ণ বৈশিষ্ট্য, যা
-                object-oriented programming (OOP) এর ভিত্তি তৈরি করে।
-                JavaScript-এ প্রতিটি object-এর একটি prototype থাকে, যা অন্য একটি
-                object-এর property এবং method শেয়ার করতে সাহায্য করে।
-              </p>
-            </div>
-          </li>
-          <li className="flex items-center md:mr-4 md:ml-40 justify-end gap-2">
-            <div className="bg-blue-600 px-2 py-4 rounded-md">
-              <p className="text-sm text-right font-medium text-gray-100">
-                Prototype হলো JavaScript-এর একটি গুরুত্বপূর্ণ বৈশিষ্ট্য, যা
-                object-oriented programming (OOP) এর ভিত্তি তৈরি করে।
-                JavaScript-এ প্রতিটি object-এর একটি prototype থাকে, যা অন্য একটি
-                object-এর property এবং method শেয়ার করতে সাহায্য করে।
-              </p>
-            </div>
-          </li>
-          <li className="w-full flex  items-start gap-2">
-            <div className="  flex-shrink-0 overflow-hidden">
-              <img src={User} className="size-8 rounded-full" alt="" />
-            </div>
-            <div className="bg-[#202227] px-2 py-4 rounded-md">
-              <p className="text-sm font-medium text-gray-300">
-                Traveling alteration impression 🤐 six all uncommonly Chamber
-                hearing inhabit joy highest private .
-              </p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </>
+    <div
+      ref={scrollRef}
+      className="border-t-2 w-full border-[#1f1f1f] @2xl:h-[480px] @xl:h-[320px] h-[450px] scrollbar overflow-auto"
+    >
+      <ul className="flex flex-col gap-4 scroll-smooth scrollbar-track-black my-2 px-2 ">
+        {messages
+          .sort((a, b) => new Date(a.created_at) - new Date(b.created_at)) // Ensure messages are sorted by time
+          .map((message, index) => (
+            <li
+              key={index}
+              ref={index === messages.length - 1 ? lastMessageRef : null} // Attach ref to last message
+              className={`flex w-full items-start gap-2 ${
+                message.sender_id !== selectedUser.id
+                  ? "justify-end ml-auto" // Right-side (Sender)
+                  : "justify-start mr-auto" // Left-side (Receiver)
+              }`}
+            >
+              {/* Show Avatar Only for Receiver */}
+              {message.receiver_id !== selectedUser.id && (
+                <img
+                  src={selectedUser.profile_picture_url}
+                  className="size-8 rounded-full"
+                  alt="User"
+                />
+              )}
+
+              <div
+                className={`px-2 py-4 rounded-md max-w-[70%] ${
+                  message.sender_id !== selectedUser.id
+                    ? "bg-blue-600 text-gray-100 "
+                    : "bg-[#202227] text-gray-300"
+                }`}
+              >
+                <p className="text-sm font-medium ">{message.message}</p>
+              </div>
+            </li>
+          ))}
+      </ul>
+    </div>
   );
 }
 

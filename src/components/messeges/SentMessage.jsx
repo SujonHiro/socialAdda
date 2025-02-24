@@ -1,11 +1,26 @@
 function SentMessage() {
+  /* { onSend, disabled } */
+  /*  const [message, setMessage] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSend(message);
+    setMessage("");
+  }; */
+
+  /* onSubmit={handleSubmit} */
+  /* value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          disabled={disabled} 
+          disabled={disabled}
+          
+          */
   return (
     <>
-      <form action="" className="flex items-center gap-2 mt-4">
+      <form className="flex items-center gap-2 mt-4">
         <input
           type="text"
           className="w-full bg-[#202227] p-2 rounded-md text-sm text-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-600"
-          placeholder="Type a message"
+          placeholder="Type a message..."
         />
         <button
           className="bg-blue-600 p-2 rounded-md hover:bg-blue-700"

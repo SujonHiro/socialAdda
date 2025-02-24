@@ -55,3 +55,28 @@
     }
   }
 }
+
+@layer utilities {
+  /* Width of the scrollbar */
+  .scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Track (the area behind the scrollbar) */
+  .scrollbar::-webkit-scrollbar-track {
+    background: #1f1f1f; /* Dark background */
+    border-radius: 10px;
+  }
+
+  /* Handle (the draggable part) */
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #3175e2; /* Blue color */
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #2563eb; /* Darker blue on hover */
+  }
+}
