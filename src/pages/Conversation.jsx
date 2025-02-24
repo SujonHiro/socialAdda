@@ -42,7 +42,6 @@ function Conversation() {
       }
     });
 
-    // Attach WebSocket listener
     const handleNewMessage = (message) => {
       setMessages((prev) => [message, ...prev]);
     };
