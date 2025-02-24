@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { actions } from "../action";
 import FullScreeenLoading from "../components/common/FullScreeenLoading";
-import CreatePost from "../components/newsfeed/post/CreatePost";
 import PostList from "../components/newsfeed/post/PostList";
 import ProfileBio from "../components/profile/ProfileBio";
 import ProfileCover from "../components/profile/ProfileCover";
@@ -39,7 +38,7 @@ function ProfilePage() {
   return (
     <>
       <div className="md:w-2/3 mx-auto mb-3">
-        <div className="bg-[#141519]">
+        <div className="bg-[#141519] my-4">
           <ProfileCover profileCover={state.user?.cover_picture_url} />
           <div className="p-4 md:mt-[-5rem] mt-[-3rem]">
             <ProfilePicture profilePicture={state.user?.profile_picture_url} />
@@ -53,7 +52,8 @@ function ProfilePage() {
             <ProfileBio />
           </div>
         </div>
-        <CreatePost />
+
+        {/* <CreatePost /> */}
 
         <PostList posts={posts} />
       </div>
