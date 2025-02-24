@@ -33,16 +33,25 @@ function Conversation() {
   };
 
   useEffect(() => {
-    if (!selectedUser) return;
+    if (!selectedUser || !socket) return;
 
+    // Fetch previous messages
     useAxios.get(`/messages/${selectedUser.id}`).then((response) => {
       if (response.status === 200) {
         setMessages(response.data);
       }
     });
-    socket.on("sendMessage", (message) => {
+
+    // Attach WebSocket listener
+    const handleNewMessage = (message) => {
       setMessages((prev) => [message, ...prev]);
-    });
+    };
+
+    socket.on("sendMessage", handleNewMessage);
+
+    return () => {
+      socket.off("sendMessage", handleNewMessage);
+    };
   }, [selectedUser, socket]);
 
   useEffect(() => {
