@@ -5,6 +5,7 @@ import { actions } from "../../../action/index";
 import useAuth from "../../../hook/useAuth";
 import useAxios from "../../../hook/useAxios";
 import usePost from "../../../hook/usePost";
+import useProfile from "../../../hook/useProfile";
 import { formatDate } from "../../../utils/formatime";
 import EditPost from "../../EditPost";
 import UploadModal from "../../UploadModal";
@@ -19,6 +20,7 @@ export default function PostCard({ post }) {
   const { auth } = useAuth();
   const isMe = auth.user.id == post.user.id;
   const { dispatch } = usePost();
+  const { dispatch: profileDispatch } = useProfile();
   const [editingPost, setEditingPost] = useState(null);
   const [showTextArea, setShowTextArea] = useState(false);
   const [showImagePostModal, setShowImagePostModal] = useState(false);
@@ -37,11 +39,16 @@ export default function PostCard({ post }) {
       return;
     }
     dispatch({ type: actions.post.DATA_FETCHING });
+    profileDispatch({ type: actions.post.DATA_FETCHING });
 
     try {
       const response = await useAxios.delete(`/post/${post.id}`);
       if (response.status === 200) {
         dispatch({ type: actions.post.POST_DELETED, data: post.id });
+        profileDispatch({
+          type: actions.profile.USER_POST_DELETED,
+          data: post.id,
+        });
         toast.success(response.data.message);
       }
     } catch (error) {

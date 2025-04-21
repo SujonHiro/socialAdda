@@ -31,6 +31,12 @@ const profileReducer = (state, action) => {
         loading: false,
       };
     }
+    case actions.profile.USER_POST_DELETED: {
+      return {
+        ...state,
+        posts: state.posts.filter((p) => p.id !== action.data),
+      };
+    }
     case actions.profile.USER_PROFILE_FETCHED_ERROR: {
       return {
         ...state,
