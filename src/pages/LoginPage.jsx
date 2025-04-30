@@ -12,7 +12,7 @@ export default function LoginPage() {
               <p className="flex gap-3 justify-center items-center">
                 Dont have an account?
                 <Link to="/register" className="text-blue-600 hover:opacity-70">
-                  Click here to sign up
+                create new account
                 </Link>
               </p>
 

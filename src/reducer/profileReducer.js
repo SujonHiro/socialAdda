@@ -37,6 +37,7 @@ const profileReducer = (state, action) => {
         posts: state.posts.filter((p) => p.id !== action.data),
       };
     }
+    
     case actions.profile.USER_PROFILE_FETCHED_ERROR: {
       return {
         ...state,

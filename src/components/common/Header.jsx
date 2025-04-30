@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router";
-import Logo from "../../assets/img/logo.svg";
+import Logo from "../../assets/img/uu-1.png";
 import useAuth from "../../hook/useAuth";
 import useOutsideClick from "../../hook/useOutsideClick";
 import useProfile from "../../hook/useProfile";
@@ -21,7 +21,7 @@ function Header() {
       <header className=" px-4 sticky top-0 z-50 border-b border-[#141519] bg-[#000000] py-4">
         <nav className="mx-auto flex items-center justify-between gap-4">
           <Link to="/">
-            <img src={Logo} alt="" />
+            <img src={Logo} width="25px" alt="" />
           </Link>
           <div className="flex items-center basis-auto">
             <div>
