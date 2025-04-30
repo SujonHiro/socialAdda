@@ -46,7 +46,7 @@ function PostBody({ content, poster, postType }) {
         <>
           <img
             src={poster}
-            className="mx-auto max-w-full  rounded-md my-2"
+            className="mx-auto max-w-full object-cover max-h-[500px] rounded-md my-2"
             alt="poster"
           />
         </>
